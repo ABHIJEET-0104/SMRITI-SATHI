@@ -1,0 +1,201 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Smriti Sathi design system — "Readable Frost".
+ * Calm frosted panels on a soft blue-to-sand gradient, indigo brand,
+ * warm apricot accent, very high text contrast and large type for
+ * elderly users. All colours are oklch semantic tokens.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --font-display: var(--font-display-family);
+  --font-body: var(--font-body-family);
+  --font-sans: var(--font-body-family);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-deep: var(--primary-deep);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-deep: var(--accent-deep);
+  --color-positive: var(--positive);
+  --color-positive-foreground: var(--positive-foreground);
+  --color-warn: var(--warn);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.9rem;
+  --font-display-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --background: oklch(0.96 0.014 254);
+  --foreground: oklch(0.24 0.045 265);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.045 265);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.045 265);
+
+  --primary: oklch(0.57 0.128 267);
+  --primary-deep: oklch(0.41 0.118 268);
+  --primary-foreground: oklch(0.99 0.004 250);
+
+  --secondary: oklch(0.94 0.016 252);
+  --secondary-foreground: oklch(0.3 0.05 265);
+
+  --muted: oklch(0.95 0.012 252);
+  --muted-foreground: oklch(0.48 0.03 260);
+
+  --accent: oklch(0.77 0.115 65);
+  --accent-deep: oklch(0.66 0.135 55);
+  --accent-foreground: oklch(0.24 0.045 265);
+
+  --positive: oklch(0.6 0.115 158);
+  --positive-foreground: oklch(0.99 0.004 250);
+  --warn: oklch(0.75 0.13 76);
+
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: oklch(0.99 0.004 250);
+
+  --border: oklch(0.88 0.016 255);
+  --input: oklch(0.88 0.016 255);
+  --ring: oklch(0.57 0.128 267);
+
+  --chart-1: oklch(0.57 0.128 267);
+  --chart-2: oklch(0.77 0.115 65);
+  --chart-3: oklch(0.6 0.115 158);
+  --chart-4: oklch(0.41 0.118 268);
+  --chart-5: oklch(0.48 0.03 260);
+
+  --sidebar: oklch(0.98 0.008 252);
+  --sidebar-foreground: oklch(0.24 0.045 265);
+  --sidebar-primary: oklch(0.57 0.128 267);
+  --sidebar-primary-foreground: oklch(0.99 0.004 250);
+  --sidebar-accent: oklch(0.94 0.016 252);
+  --sidebar-accent-foreground: oklch(0.3 0.05 265);
+  --sidebar-border: oklch(0.88 0.016 255);
+  --sidebar-ring: oklch(0.57 0.128 267);
+
+  --gradient-app: linear-gradient(
+    135deg,
+    oklch(0.95 0.024 255) 0%,
+    oklch(0.92 0.026 258) 38%,
+    oklch(0.95 0.02 85) 100%
+  );
+  --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-deep));
+  --gradient-accent: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  --shadow-panel: 0 18px 40px -24px oklch(0.41 0.118 268 / 0.35);
+  --shadow-lift: 0 10px 24px -12px oklch(0.41 0.118 268 / 0.45);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-background);
+    background-image: var(--gradient-app);
+    background-attachment: fixed;
+    color: var(--color-foreground);
+    font-family: var(--font-body-family);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display-family);
+    letter-spacing: -0.015em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* Frosted panel surface used across both experiences. */
+@utility panel {
+  background: color-mix(in oklab, var(--card) 62%, transparent);
+  backdrop-filter: blur(18px);
+  border: 1px solid color-mix(in oklab, white 60%, transparent);
+  box-shadow: var(--shadow-panel);
+}
+
+@utility panel-solid {
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+  backdrop-filter: blur(18px);
+  border: 1px solid color-mix(in oklab, white 60%, transparent);
+  box-shadow: var(--shadow-panel);
+}
+
+@utility gradient-primary {
+  background-image: var(--gradient-primary);
+}
+
+@utility gradient-accent {
+  background-image: var(--gradient-accent);
+}
+
+/* Ambient blurred orbs behind the app shell. */
+@utility orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
