@@ -282,3 +282,4 @@ npm run build
 ### 7.4 Deployment Targets
 - Cloudflare Pages / Workers (via `@tanstack/react-start/server-functions`)
 - Vercel / Netlify / Docker container running `vite preview` / Node runtime.
+

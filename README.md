@@ -145,3 +145,4 @@ Contributions, bug reports, and feature suggestions are always welcome!
 This project is open source and available under the [MIT License](LICENSE).
 
 > **Important Notice**: *Smriti Sathi is designed solely for cognitive stimulation, personal memory engagement, and daily routine assistance. It is NOT a medical device, nor does it provide medical diagnosis, treatment, or clinical assessment. Always consult qualified healthcare professionals regarding neurological health or dementia care.*
+

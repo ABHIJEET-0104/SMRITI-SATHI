@@ -128,3 +128,4 @@ Unlike clinical diagnostic tools, Smriti Sathi is framed around **dignity, emoti
 - **Phase 3**: Voice command recognition (speech-to-text) allowing elders to answer by speaking names aloud.
 - **Phase 4**: Wearable telemetry integration (pulse, step count, sleep tracking) correlated with cognitive routine engagement.
 - **Phase 5**: Expansion to additional regional languages (Bengali, Tamil, Telugu, Kannada, Gujarati).
+
