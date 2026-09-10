@@ -15,13 +15,12 @@ import { VoiceService } from "@/lib/voice";
 const GAME_ID = "sequence_memory";
 const ROUNDS = 5;
 
-const PADS = [
+ const PADS = [
   { id: 0, label: "1", className: "bg-primary text-primary-foreground" },
   { id: 1, label: "2", className: "bg-accent text-accent-foreground" },
   { id: 2, label: "3", className: "bg-positive text-primary-foreground" },
-  { id: 3, label: "4", className: "bg-warning text-accent-foreground" },
+  { id: 3, label: "4", className: "bg-red-500 text-white" },
 ];
-
 export const Route = createFileRoute("/_authenticated/play/sequence")({
   head: () => ({
     meta: [

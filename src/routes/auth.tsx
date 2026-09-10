@@ -29,7 +29,8 @@ export const Route = createFileRoute("/auth")({
       { property: "og:title", content: "Sign in to Smriti Sathi" },
       {
         property: "og:description",
-        content: "Elders play memory games; caregivers follow game performance and reminders.",
+        content:
+          "Elders play memory games; caregivers follow game performance and reminders.",
       },
     ],
   }),
@@ -54,7 +55,10 @@ function AuthPage() {
 
   useEffect(() => {
     if (session && profile) {
-      navigate({ to: profile.role === "caregiver" ? "/caregiver" : "/home", replace: true });
+      navigate({
+        to: profile.role === "caregiver" ? "/caregiver" : "/home",
+        replace: true,
+      });
     }
   }, [session, profile, navigate]);
 
@@ -62,6 +66,7 @@ function AuthPage() {
     event.preventDefault();
     setBusy(true);
     setNotice(null);
+
     try {
       if (isSignUp) {
         const { data, error } = await supabase.auth.signUp({
@@ -77,17 +82,25 @@ function AuthPage() {
             },
           },
         });
+
         if (error) throw error;
+
         if (!data.session) {
           setNotice(t("check_email"));
           return;
         }
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
         if (error) throw error;
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Something went wrong");
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong",
+      );
     } finally {
       setBusy(false);
     }
@@ -95,6 +108,7 @@ function AuthPage() {
 
   async function handleGoogle() {
     setBusy(true);
+
     try {
       // First try standard Supabase OAuth:
       const { data, error } = await supabase.auth.signInWithOAuth({
@@ -117,15 +131,19 @@ function AuthPage() {
         const result = await lovable.auth.signInWithOAuth("google", {
           redirect_uri: window.location.origin,
         });
+
         if (result.error) {
           throw new Error(
-            error.message || "Google sign-in is not enabled on your Supabase project yet. Please enable Google in Supabase Auth Providers or sign in with Email & Password."
+            error.message ||
+              "Google sign-in is not enabled on your Supabase project yet. Please enable Google in Supabase Auth Providers or sign in with Email & Password.",
           );
         }
       }
     } catch (err) {
       toast.error(
-        err instanceof Error ? err.message : "Google sign-in is not enabled on your Supabase project yet."
+        err instanceof Error
+          ? err.message
+          : "Google sign-in is not enabled on your Supabase project yet.",
       );
     } finally {
       setBusy(false);
@@ -141,23 +159,27 @@ function AuthPage() {
             "radial-gradient(circle, color-mix(in oklab, var(--primary) 35%, transparent), transparent 70%)",
         }}
       />
+
       <div className="relative z-10 mx-auto max-w-lg">
         <Link to="/" className="flex items-center gap-3">
           <span className="gradient-primary grid size-11 place-items-center rounded-2xl font-display font-bold text-primary-foreground">
             SS
           </span>
-          <span className="font-display text-xl font-bold">{t("app_name")}</span>
+
+          <span className="font-display text-xl font-bold">
+            {t("app_name")}
+          </span>
         </Link>
 
         <div className="panel mt-6 rounded-3xl p-6 sm:p-8">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider">
             {role === "elderly" ? (
               <span className="rounded-full bg-primary/15 px-3 py-1 text-primary">
-                👴👵 {t("role_elderly")}
+                {t("role_elderly")}
               </span>
             ) : (
               <span className="rounded-full bg-accent/15 px-3 py-1 text-accent-foreground">
-                🩺🤝 {t("role_caregiver")}
+                {t("role_caregiver")}
               </span>
             )}
           </div>
@@ -181,6 +203,7 @@ function AuthPage() {
               <>
                 <label className="grid gap-1.5 text-sm font-semibold">
                   {t("full_name")}
+
                   <input
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
@@ -189,9 +212,11 @@ function AuthPage() {
                     className="min-h-13 rounded-xl border border-input bg-card px-4 text-base"
                   />
                 </label>
+
                 {role === "elderly" && (
                   <label className="grid gap-1.5 text-sm font-semibold">
                     {t("age")}
+
                     <input
                       value={age}
                       onChange={(e) => setAge(e.target.value)}
@@ -205,6 +230,7 @@ function AuthPage() {
 
             <label className="grid gap-1.5 text-sm font-semibold">
               {t("email")}
+
               <input
                 type="email"
                 value={email}
@@ -217,6 +243,7 @@ function AuthPage() {
 
             <label className="grid gap-1.5 text-sm font-semibold">
               {t("password")}
+
               <input
                 type="password"
                 value={password}

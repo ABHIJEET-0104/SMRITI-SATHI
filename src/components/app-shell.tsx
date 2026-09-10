@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { Cloud, CloudOff, LogOut, RefreshCw } from "lucide-react";
+import { useState } from "react";
 import type { ReactNode } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
@@ -29,45 +30,91 @@ export function SyncBadge({ className }: { className?: string }) {
       ) : (
         <CloudOff className="size-4 text-warn" aria-hidden />
       )}
+
       <span>{online ? t("online") : t("offline")}</span>
+
       {pendingCount > 0 && (
         <span className="rounded-full bg-accent/25 px-2 py-0.5 text-xs font-semibold">
           {pendingCount} {t("results_waiting")}
         </span>
       )}
-      {state === "syncing" && <RefreshCw className="size-4 animate-spin" aria-hidden />}
+
+      {state === "syncing" && (
+        <RefreshCw className="size-4 animate-spin" aria-hidden />
+      )}
     </button>
   );
 }
 
 export function LanguagePicker({ compact = false }: { compact?: boolean }) {
   const { language, setLanguage, t } = useApp();
+  const [open, setOpen] = useState(false);
+
+  const currentLanguage =
+    LANGUAGES.find((lang) => lang.code === language) ?? LANGUAGES[0];
 
   return (
-    <div className="flex flex-wrap items-center gap-2" role="group" aria-label={t("language")}>
-      {LANGUAGES.map((lang) => {
-        const active = lang.code === language;
-        return (
-          <button
-            key={lang.code}
-            type="button"
-            onClick={() => {
-              setLanguage(lang.code as LanguageCode);
-              VoiceService.speak("welcome", { lang: lang.code as LanguageCode });
-            }}
-            aria-pressed={active}
-            className={cn(
-              "min-h-11 rounded-full border px-4 py-2 font-semibold transition-colors",
-              compact ? "text-sm" : "text-base",
-              active
-                ? "gradient-primary border-transparent text-primary-foreground shadow-[var(--shadow-lift)]"
-                : "border-border bg-card/70 text-foreground hover:bg-card",
-            )}
-          >
-            {lang.native}
-          </button>
-        );
-      })}
+    <div
+      className="relative"
+      role="group"
+      aria-label={t("language")}
+    >
+      {/* Language Button */}
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        className={cn(
+          "inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-card/90 px-4 py-2 font-semibold shadow-sm transition-colors hover:bg-card",
+          compact ? "text-sm" : "text-base",
+        )}
+      >
+        <span>{t("language")}</span>
+
+        <span
+          className={cn(
+            "text-xs transition-transform",
+            open && "rotate-180",
+          )}
+        >
+          ▼
+        </span>
+      </button>
+
+      {/* Language Dropdown */}
+      {open && (
+        <div className="absolute right-0 top-full z-50 mt-2 min-w-[160px] rounded-2xl border border-border bg-card p-2 shadow-lg">
+          {LANGUAGES.map((lang) => {
+            const active = lang.code === language;
+
+            return (
+              <button
+                key={lang.code}
+                type="button"
+                onClick={() => {
+                  setLanguage(lang.code as LanguageCode);
+
+                  VoiceService.speak("welcome", {
+                    lang: lang.code as LanguageCode,
+                  });
+
+                  setOpen(false);
+                }}
+                className={cn(
+                  "flex w-full items-center justify-between rounded-xl px-4 py-3 text-left font-semibold transition-colors",
+                  active
+                    ? "gradient-primary text-primary-foreground"
+                    : "text-foreground hover:bg-secondary",
+                )}
+              >
+                <span>{lang.native}</span>
+
+                {active && <span>✓</span>}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -107,6 +154,7 @@ export function AppShell({
             "radial-gradient(circle, color-mix(in oklab, var(--primary) 35%, transparent), transparent 70%)",
         }}
       />
+
       <div
         className="orb -bottom-24 -right-24 size-[420px]"
         style={{
@@ -120,23 +168,30 @@ export function AppShell({
           <span className="gradient-primary grid size-12 place-items-center rounded-2xl font-display text-lg font-bold text-primary-foreground shadow-[var(--shadow-lift)]">
             SS
           </span>
+
           <span className="leading-tight">
             <span className="block font-display text-xl font-bold tracking-tight">
               {t("app_name")}
             </span>
-            <span className="block text-xs text-muted-foreground">{t("tagline")}</span>
+
+            <span className="block text-xs text-muted-foreground">
+              {t("tagline")}
+            </span>
           </span>
         </Link>
 
         <div className="flex flex-wrap items-center gap-3">
           {showSync && <SyncBadge />}
+
           <div className="panel flex items-center gap-2 rounded-full py-1 pl-1 pr-2">
             <span className="grid size-9 place-items-center rounded-full bg-secondary text-xs font-semibold">
               {initials}
             </span>
+
             <span className="max-w-[10rem] truncate text-sm font-semibold">
               {profile?.full_name}
             </span>
+
             <button
               type="button"
               onClick={() => void signOut()}
@@ -149,7 +204,9 @@ export function AppShell({
         </div>
       </header>
 
-      <main className="relative z-10 px-4 pb-16 sm:px-8">{children}</main>
+      <main className="relative z-10 px-4 pb-16 sm:px-8">
+        {children}
+      </main>
     </div>
   );
 }
