@@ -10,6 +10,7 @@ import { ResultPanel } from "@/components/result-panel";
 import { useApp } from "@/hooks/use-app";
 import { useGameSession } from "@/hooks/use-game-session";
 import { listFamily, recommendNextDifficulty } from "@/lib/api.functions";
+import { getCachedFamily, saveCachedFamily } from "@/lib/offline";
 import { DIFFICULTY_CONFIG, asDifficulty } from "@/lib/performance";
 import { VoiceService } from "@/lib/voice";
 import type { GameResult } from "@/hooks/use-game-session";
@@ -47,23 +48,40 @@ interface Question {
 type Phase = "intro" | "preview" | "question" | "feedback" | "done";
 
 function FamilyGame() {
-  const { profile, t } = useApp();
+  const { profile, people, t } = useApp();
   const { finish } = useGameSession();
-  const userId = profile?.id;
+
+  // If user is caregiver, automatically play/preview for their linked elder
+  const isCaregiver = profile?.role === "caregiver";
+  const targetElder = isCaregiver ? (people[0] ?? null) : null;
+  const targetUserId = isCaregiver ? (targetElder?.id ?? profile?.id) : profile?.id;
 
   const fetchFamily = useServerFn(listFamily);
   const recommend = useServerFn(recommendNextDifficulty);
 
   const { data: family = [], isLoading } = useQuery({
-    queryKey: ["family", userId],
-    enabled: !!userId,
-    queryFn: () => fetchFamily({ data: { user_id: userId! } }),
+    queryKey: ["family", targetUserId],
+    enabled: !!targetUserId,
+    queryFn: async () => {
+      try {
+        const rows = await fetchFamily({ data: { user_id: targetUserId! } });
+        if (Array.isArray(rows) && rows.length > 0) {
+          saveCachedFamily(targetUserId!, rows);
+          return rows;
+        }
+      } catch (err) {
+        console.warn("Could not fetch remote family members, checking offline cache:", err);
+      }
+      return getCachedFamily(targetUserId!) ?? [];
+    },
+    refetchOnWindowFocus: true,
+    refetchInterval: 4000,
   });
 
   const { data: recommendation } = useQuery({
-    queryKey: ["difficulty", userId, GAME_ID],
-    enabled: !!userId,
-    queryFn: () => recommend({ data: { user_id: userId!, game_id: GAME_ID } }),
+    queryKey: ["difficulty", targetUserId, GAME_ID],
+    enabled: !!targetUserId,
+    queryFn: () => recommend({ data: { user_id: targetUserId!, game_id: GAME_ID } }),
   });
 
   const difficulty = asDifficulty(recommendation?.recommended_difficulty);
@@ -102,26 +120,30 @@ function FamilyGame() {
   }
 
   function start() {
-    setQuestions(buildQuestions());
+    const q = buildQuestions();
+    setQuestions(q);
     setIndex(0);
     setCorrect(0);
     setMistakes(0);
     setTimes([]);
     setResult(null);
     setPhase("preview");
-    VoiceService.speak("game_instruction");
   }
 
-  // Preview the photo, then ask the question.
+  // Preview the photo and announce who the family member is, then ask the question.
   useEffect(() => {
     if (phase !== "preview") return;
+    const currentTarget = questions[index]?.target;
+    if (currentTarget) {
+      VoiceService.speakText(`${currentTarget.name}, ${currentTarget.relationship}`);
+    }
     const timer = window.setTimeout(() => {
       setPhase("question");
       shownAt.current = Date.now();
       VoiceService.speak("question_prompt");
-    }, config.previewMs);
+    }, Math.max(config.previewMs, 3800));
     return () => window.clearTimeout(timer);
-  }, [phase, index, config.previewMs]);
+  }, [phase, index, config.previewMs, questions]);
 
   function answer(member: Member) {
     if (phase !== "question") return;
@@ -148,7 +170,7 @@ function FamilyGame() {
         setIndex((i) => i + 1);
         setPhase("preview");
       }
-    }, 1800);
+    }, 2200);
     return () => window.clearTimeout(timer);
   }, [phase, index, questions.length]);
 
@@ -162,6 +184,7 @@ function FamilyGame() {
       correctAnswers: correct,
       mistakes,
       responseTimes: times,
+      userId: targetUserId,
     }).then((saved) => saved && setResult(saved));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
@@ -172,11 +195,23 @@ function FamilyGame() {
   return (
     <AppShell>
       <div className="mx-auto grid max-w-3xl gap-6">
-        <Link to="/home" className="inline-flex items-center gap-2 text-base font-semibold">
-          <ArrowLeft className="size-5" aria-hidden /> {t("back_home")}
+        <Link
+          to={isCaregiver ? "/caregiver" : "/home"}
+          className="inline-flex items-center gap-2 text-base font-semibold"
+        >
+          <ArrowLeft className="size-5" aria-hidden />{" "}
+          {isCaregiver ? t("caregiver_dashboard") : t("back_home")}
         </Link>
 
         <section className="panel rounded-3xl p-6 sm:p-8">
+          {isCaregiver && targetElder && (
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-semibold text-primary">
+              <span>
+                {t("caregiver_preview")}: {targetElder.full_name}
+              </span>
+            </div>
+          )}
+
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <h1 className="font-display text-3xl font-bold">{heading}</h1>
@@ -194,9 +229,15 @@ function FamilyGame() {
           {isLoading && <p className="mt-6 text-lg">…</p>}
 
           {!isLoading && !canPlay && (
-            <p className="mt-6 rounded-2xl border border-accent/40 bg-accent/10 p-5 text-lg">
-              {t("need_family_first")}
-            </p>
+            <div className="mt-6 rounded-2xl border border-accent/40 bg-accent/10 p-5 text-lg">
+              {members.length === 1 ? (
+                <p>
+                  <span className="font-semibold">{members[0]?.name}</span>: {t("need_family_more")}
+                </p>
+              ) : (
+                <p>{t("need_family_first")}</p>
+              )}
+            </div>
           )}
 
           {!isLoading && canPlay && phase === "intro" && (
@@ -219,17 +260,43 @@ function FamilyGame() {
             <div className="mt-6 grid gap-6 sm:grid-cols-5 sm:items-center">
               <div className="overflow-hidden rounded-2xl border border-border bg-secondary sm:col-span-3">
                 <div className="aspect-[4/3]">
-                  {phase === "preview" ? (
-                    <FaceTile photoUrl={question.target.photo_url} name={question.target.name} />
-                  ) : (
-                    <div className="grid size-full place-items-center bg-secondary p-6 text-center">
-                      <p className="font-display text-3xl font-bold">{t("question_prompt")}</p>
-                    </div>
-                  )}
+                  <FaceTile photoUrl={question.target.photo_url} name={question.target.name} />
                 </div>
-                <p className="border-t border-border px-4 py-3 text-center text-lg font-semibold">
-                  {phase === "preview" ? t("memory_preview") : t("question_prompt")}
-                </p>
+                {phase === "preview" ? (
+                  <div className="border-t border-border bg-card/80 px-4 py-3 text-center">
+                    <span className="text-xs font-bold uppercase tracking-wider text-primary">
+                      {t("memory_preview")}
+                    </span>
+                    <p className="mt-0.5 font-display text-2xl font-bold text-foreground sm:text-3xl">
+                      {question.target.name}
+                    </p>
+                    <p className="text-base font-medium text-muted-foreground">
+                      {question.target.relationship}
+                    </p>
+                  </div>
+                ) : phase === "question" ? (
+                  <div className="border-t border-border bg-card/80 px-4 py-3 text-center">
+                    <p className="font-display text-2xl font-bold text-foreground">
+                      {t("question_prompt")}
+                    </p>
+                    <p className="mt-0.5 text-sm font-medium text-muted-foreground">
+                      {t("choose_name")}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="border-t border-border bg-card/80 px-4 py-3 text-center">
+                    <p
+                      className={`font-display text-xl font-bold ${
+                        wasRight ? "text-positive" : "text-destructive"
+                      }`}
+                    >
+                      {wasRight ? `✓ ${t("correct_feedback")}` : `✕ ${t("incorrect_feedback")}`}
+                    </p>
+                    <p className="mt-0.5 text-base font-semibold text-foreground">
+                      {question.target.name} ({question.target.relationship})
+                    </p>
+                  </div>
+                )}
               </div>
 
               <div className="grid gap-3 sm:col-span-2">
@@ -258,11 +325,6 @@ function FamilyGame() {
                     </button>
                   );
                 })}
-                {phase === "feedback" && (
-                  <p className="text-lg font-semibold">
-                    {wasRight ? t("correct_feedback") : t("incorrect_feedback")}
-                  </p>
-                )}
               </div>
             </div>
           )}

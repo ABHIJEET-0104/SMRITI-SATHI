@@ -199,3 +199,13 @@ Whenever files are modified or introduced during coding sessions, log them in th
 | 2026-09-11 | `DECISIONS.md` | Added ADR-009 for progressive sequence memory grid |
 | 2026-09-11 | `src/components/app-shell.tsx` | Updated signOut to navigate to root landing page (/) instead of direct /auth |
 | 2026-09-11 | `src/routes/_authenticated/route.tsx` | Updated unauthenticated guard to redirect to root landing page (/) |
+| 2026-09-11 | `src/lib/offline.ts` | Added `saveCachedFamily` and `getCachedFamily` for offline photo persistence |
+| 2026-09-11 | `src/lib/api.functions.ts` | Added caregiver-elder bidirectional relationship fallback in `listFamily` |
+| 2026-09-11 | `src/hooks/use-game-session.ts` | Added optional `userId` override in `GameOutcome` for linked elder attribution |
+| 2026-09-11 | `src/lib/i18n.ts` | Added `need_family_more` and `caregiver_preview` translations across EN, HI, MR, AS |
+| 2026-09-11 | `DECISIONS.md` | Added ADR-010 for Caregiver-Elder Family Photo Linking & Offline Sync |
+| 2026-09-11 | `src/routes/_authenticated/play.family.tsx` | Implemented preview face/name intro + persistent photo anchor in question and feedback |
+| 2026-09-11 | `src/lib/i18n.ts` | Added `choose_name` key across EN, HI, MR, AS |
+| 2026-09-11 | `DECISIONS.md` | Added ADR-011 for Spaced Retrieval Family Memory Match (Cueing & Persistent Visual Anchor) |
+
+

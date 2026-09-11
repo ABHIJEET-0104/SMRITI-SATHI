@@ -96,7 +96,41 @@ export const listFamily = createServerFn({ method: "GET" })
       .eq("user_id", data.user_id)
       .order("created_at");
     fail(error);
-    return rows ?? [];
+    if (rows && rows.length > 0) return rows;
+
+    // Fallback: If user_id is a caregiver, try to fetch family for their linked elder
+    const { data: elderProfiles } = await supabase
+      .from("profiles")
+      .select("id")
+      .eq("caregiver_id", data.user_id)
+      .limit(1);
+
+    if (elderProfiles && elderProfiles.length > 0) {
+      const { data: elderRows } = await supabase
+        .from("family_members")
+        .select("*")
+        .eq("user_id", elderProfiles[0].id)
+        .order("created_at");
+      if (elderRows && elderRows.length > 0) return elderRows;
+    }
+
+    // Fallback: If user_id is an elder with a caregiver_id, also check if any family members were uploaded under caregiver_id
+    const { data: myProfile } = await supabase
+      .from("profiles")
+      .select("caregiver_id")
+      .eq("id", data.user_id)
+      .maybeSingle();
+
+    if (myProfile?.caregiver_id) {
+      const { data: caregiverRows } = await supabase
+        .from("family_members")
+        .select("*")
+        .eq("user_id", myProfile.caregiver_id)
+        .order("created_at");
+      if (caregiverRows && caregiverRows.length > 0) return caregiverRows;
+    }
+
+    return [];
   });
 
 export const saveFamilyMember = createServerFn({ method: "POST" })

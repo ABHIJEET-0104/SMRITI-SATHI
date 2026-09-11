@@ -12,6 +12,7 @@ export interface GameOutcome {
   correctAnswers: number;
   mistakes: number;
   responseTimes: number[];
+  userId?: string;
 }
 
 export interface GameResult extends PendingSession {}
@@ -40,7 +41,7 @@ export function useGameSession() {
 
       const session: GameResult = {
         session_id: newSessionId(),
-        user_id: profile.id,
+        user_id: outcome.userId || profile.id,
         game_id: outcome.gameId,
         difficulty: outcome.difficulty,
         score: Math.round(accuracy * 100),

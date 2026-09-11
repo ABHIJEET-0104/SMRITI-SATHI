@@ -137,3 +137,33 @@ Whenever altering the codebase, record each significant decision below using the
   - Mistake handling: 1 gentle retry per tier (*"कोई बात नहीं, एक बार फिर देखते हैं"*). If retry fails, the session ends calmly, celebrating highest level achieved without penalization.
 - **Rationale**: Reduces initial cognitive clutter (Hick's Law), prevents demoralizing game-over states for dementia patients, and gives caregivers granular progression telemetry.
 - **Impact & Trade-offs**: Grid scales dynamically; all level transitions preserve responsive design tokens and WCAG AAA color contrast.
+
+---
+
+### ADR-010: Caregiver-Elder Family Photo Linking & Offline Sync
+- **Date**: 2026-09-11
+- **Status**: Accepted
+- **Context**: When caregivers uploaded family photos for a linked elder/patient, the game (`/play/family`) failed to display them because `play.family.tsx` queried records using `profile.id` (which was the caregiver's own ID, returning 0 records). In addition, TanStack Query cached stale data across devices, the game gave misleading alerts when only 1 member was present, and photos were not persisted offline.
+- **Decision**:
+  1. **Dynamic Target User Resolution**: In `play.family.tsx`, resolve `targetUserId`: if `profile.role === "caregiver"`, target the first linked elder (`people[0]?.id`) with a "Caregiver Preview" badge; if `elderly`, target `profile.id`.
+  2. **Server-Side Fallback in `listFamily`**: If a query is issued for a caregiver ID with linked elders, or for an elder with a linked caregiver, gracefully fall back to the linked party's family members so photos are never lost due to ID differences.
+  3. **Auto-Polling & Window Focus**: Configured `refetchInterval: 4000` and `refetchOnWindowFocus: true` on the family query so caregiver uploads instantly reflect in any active game session without manual reloads.
+  4. **Offline Persistence**: Implemented `saveCachedFamily` and `getCachedFamily` in `src/lib/offline.ts` storing base64 photos in `localStorage` (`smriti_family_cache_v1`).
+  5. **Accurate Threshold Messaging**: Replaced the generic "no photos" message when 1 member exists with an explicit message prompting for 1 more member.
+- **Rationale**: Guarantees seamless caregiver preview and elder play, prevents testing confusion, and aligns with offline-first design (ADR-003).
+- **Impact & Trade-offs**: Minimal localStorage overhead (~50KB per photo); immediate real-time synchronization between caregiver dashboard and game without requiring heavy WebSockets.
+
+---
+
+### ADR-011: Spaced Retrieval Family Memory Match (Cueing & Persistent Visual Anchor)
+- **Date**: 2026-09-11
+- **Status**: Accepted
+- **Context**: In Family Memory Match, the preview phase previously showed only an unlabelled photo with a generic caption *"Remember this face"*, without identifying who the person was. In the question phase, the photo was completely blanked out, forcing elders with dementia to make a blind guess without ever being taught the face-name association.
+- **Decision**:
+  1. **Auditory & Visual Prime (Preview Phase)**: In the preview phase (3.8s), prominently display the member's **Name & Relationship** under their portrait and audibly announce them via `VoiceService.speakText(`${name}, ${relationship}`)`.
+  2. **Persistent Visual Anchor (Question & Feedback Phases)**: Keep the loved one's photo visible during the question phase and feedback phase, shifting the task from stressful recall under total visual occlusion to gentle face-to-name associative recognition.
+  3. **Immediate Educational Feedback**: If a mistake is made, the UI highlights both the error and the correct name with affirmative text (*"This is [Name] ([Relationship])"*).
+- **Rationale**: Follows clinical best practices in dementia memory therapy (spaced retrieval and errorless learning), eliminating object permanence anxiety and promoting dignified cognitive reinforcement.
+- **Impact & Trade-offs**: Significant reduction in patient confusion; requires no extra network calls as data is already available in the question target.
+
+

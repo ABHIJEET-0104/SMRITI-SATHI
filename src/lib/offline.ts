@@ -104,3 +104,31 @@ export function mergeSessions<T extends { session_id: string; played_at: string 
     (a, b) => +new Date(b.played_at) - +new Date(a.played_at),
   );
 }
+
+const FAMILY_CACHE_KEY = "smriti_family_cache_v1";
+
+export function saveCachedFamily(userId: string, members: any[]) {
+  if (typeof window === "undefined" || !userId) return;
+  try {
+    const raw = window.localStorage.getItem(FAMILY_CACHE_KEY);
+    const store = raw ? JSON.parse(raw) : {};
+    store[userId] = members;
+    window.localStorage.setItem(FAMILY_CACHE_KEY, JSON.stringify(store));
+  } catch {
+    /* storage full or blocked */
+  }
+}
+
+export function getCachedFamily(userId: string): any[] {
+  if (typeof window === "undefined" || !userId) return [];
+  try {
+    const raw = window.localStorage.getItem(FAMILY_CACHE_KEY);
+    if (!raw) return [];
+    const store = JSON.parse(raw);
+    const found = store[userId];
+    return Array.isArray(found) ? found : [];
+  } catch {
+    return [];
+  }
+}
+

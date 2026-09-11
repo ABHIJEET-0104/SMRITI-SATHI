@@ -131,6 +131,7 @@ const en: Dict = {
   sequence_instruction: "Remember the sequence.",
   memory_preview: "Look carefully.",
   question_prompt: "Who is this?",
+  choose_name: "Tap the correct name below",
   repeat_sequence: "Now repeat the pattern.",
   correct_feedback: "Very good!",
   incorrect_feedback:
@@ -149,6 +150,10 @@ const en: Dict = {
   your_result: "Your result",
   need_family_first:
     "Your caregiver needs to add family photos before this game can start.",
+  need_family_more:
+    "Please add at least 1 more family member before this game can start.",
+  caregiver_preview: "Caregiver Preview: Playing for",
+
   watch: "Watch",
   your_turn: "Your turn",
   level: "Level",
@@ -309,6 +314,7 @@ const hi: Dict = {
   sequence_instruction: "क्रम को याद रखिए।",
   memory_preview: "ध्यान से देखिए।",
   question_prompt: "यह कौन है?",
+  choose_name: "नीचे सही नाम पर टैप करें",
   repeat_sequence: "अब क्रम दोहराइए।",
   correct_feedback: "बहुत अच्छा!",
   incorrect_feedback:
@@ -327,6 +333,10 @@ const hi: Dict = {
   your_result: "आपका परिणाम",
   need_family_first:
     "यह खेल शुरू करने से पहले आपके देखभालकर्ता को पारिवारिक तस्वीरें जोड़नी होंगी।",
+  need_family_more:
+    "कृपया इस खेल को शुरू करने के लिए कम से कम 1 और परिवार सदस्य जोड़ें।",
+  caregiver_preview: "देखभालकर्ता पूर्वावलोकन: खेल रहे हैं",
+
   watch: "देखिए",
   your_turn: "आपकी बारी",
   level: "स्तर",
@@ -487,6 +497,7 @@ const mr: Dict = {
   sequence_instruction: "क्रम लक्षात ठेवा.",
   memory_preview: "लक्षपूर्वक पाहा.",
   question_prompt: "हे कोण आहे?",
+  choose_name: "खालील योग्य नावावर टॅप करा",
   repeat_sequence: "आता क्रम पुन्हा करा.",
   correct_feedback: "खूप छान!",
   incorrect_feedback:
@@ -505,6 +516,10 @@ const mr: Dict = {
   your_result: "तुमचा निकाल",
   need_family_first:
     "हा खेळ सुरू करण्यापूर्वी तुमच्या काळजीवाहकाने कौटुंबिक फोटो जोडणे आवश्यक आहे.",
+  need_family_more:
+    "कृपया हा खेळ सुरू करण्यासाठी किमान 1 आणखी कुटुंब सदस्य जोडा.",
+  caregiver_preview: "काळजीवाहक पूर्वावलोकन: खेळत आहे",
+
   watch: "पाहा",
   your_turn: "तुमची पाळी",
   level: "पातळी",
@@ -665,6 +680,7 @@ const as: Dict = {
   sequence_instruction: "ক্ৰমটো মনত ৰাখক।",
   memory_preview: "ভালদৰে চাওক।",
   question_prompt: "এইজন কোন?",
+  choose_name: "তলত সঠিক নামটো বাছনি কৰক",
   repeat_sequence: "এতিয়া ক্ৰমটো পুনৰ কৰক।",
   correct_feedback: "বৰ ভাল!",
   incorrect_feedback:
@@ -683,6 +699,10 @@ const as: Dict = {
   your_result: "আপোনাৰ ফলাফল",
   need_family_first:
     "এই খেল আৰম্ভ কৰাৰ আগতে আপোনাৰ যত্ন লওতাই পৰিয়ালৰ ফটো যোগ কৰিব লাগিব।",
+  need_family_more:
+    "এই খেলটো আৰম্ভ কৰিবলৈ অনুগ্ৰহ কৰি কমেও আৰু ১ জন পৰিয়ালৰ সদস্য যোগ কৰক।",
+  caregiver_preview: "যত্নদাতা পূৰ্বলোকন: খেলি থকা হৈছে",
+
   watch: "চাওক",
   your_turn: "আপোনাৰ পাল",
   level: "স্তৰ",
