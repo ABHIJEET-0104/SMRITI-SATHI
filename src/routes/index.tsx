@@ -52,24 +52,25 @@ function Landing() {
   const features = [
     {
       icon: HeartHandshake,
-      text: "Two gentle memory games built around your own family photos",
+      text: t("feature_memory"),
     },
     {
       icon: Volume2,
-      text: "Spoken guidance in English, Hindi, Marathi and Assamese",
+      text: t("feature_voice"),
     },
     {
       icon: WifiOff,
-      text: "Games keep working without internet and sync up later",
+      text: t("feature_offline"),
     },
     {
       icon: ShieldCheck,
-      text: "Caregivers see game performance only — never a medical claim",
+      text: t("feature_caregiver"),
     },
   ];
 
   return (
     <div className="relative min-h-screen overflow-hidden px-4 py-10 sm:px-8">
+
       {/* Background Orb - Left */}
       <div
         className="orb -left-24 -top-32 size-[480px]"
@@ -119,15 +120,12 @@ function Landing() {
 
           {/* Main Heading */}
           <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
-            A calm memory companion for elders — and peace of mind for their
-            family.
+            {t("hero_title")}
           </h1>
 
           {/* Description */}
           <p className="mt-4 text-xl text-muted-foreground">
-            Smriti Sathi offers two simple memory games, daily reminders and
-            spoken guidance in your own language. Caregivers can follow game
-            performance from anywhere.
+            {t("hero_description")}
           </p>
 
           {/* Login Options */}
@@ -236,9 +234,9 @@ function Landing() {
 
         {/* Disclaimer */}
         <p className="mt-6 text-sm italic text-muted-foreground">
-          Smriti Sathi does not diagnose any medical condition. Game
-          performance trends are informational and are not a medical diagnosis.
+          {t("medical_disclaimer")}
         </p>
+
       </div>
     </div>
   );
