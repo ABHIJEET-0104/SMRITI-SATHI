@@ -16,6 +16,8 @@ import { Route as AuthenticatedCaregiverRouteImport } from './routes/_authentica
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedPlayFamilyRouteImport } from './routes/_authenticated/play.family'
+import { Route as AuthenticatedPlayPairsRouteImport } from './routes/_authenticated/play.pairs'
+import { Route as AuthenticatedPlayRoutineRouteImport } from './routes/_authenticated/play.routine'
 import { Route as AuthenticatedPlaySequenceRouteImport } from './routes/_authenticated/play.sequence'
 
 const IndexRoute = IndexRouteImport.update({
@@ -52,6 +54,17 @@ const AuthenticatedPlayFamilyRoute = AuthenticatedPlayFamilyRouteImport.update({
   path: '/play/family',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPlayPairsRoute = AuthenticatedPlayPairsRouteImport.update({
+  id: '/play/pairs',
+  path: '/play/pairs',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPlayRoutineRoute =
+  AuthenticatedPlayRoutineRouteImport.update({
+    id: '/play/routine',
+    path: '/play/routine',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPlaySequenceRoute =
   AuthenticatedPlaySequenceRouteImport.update({
     id: '/play/sequence',
@@ -66,6 +79,8 @@ export interface FileRoutesByFullPath {
   '/home': typeof AuthenticatedHomeRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/play/family': typeof AuthenticatedPlayFamilyRoute
+  '/play/pairs': typeof AuthenticatedPlayPairsRoute
+  '/play/routine': typeof AuthenticatedPlayRoutineRoute
   '/play/sequence': typeof AuthenticatedPlaySequenceRoute
 }
 export interface FileRoutesByTo {
@@ -75,6 +90,8 @@ export interface FileRoutesByTo {
   '/home': typeof AuthenticatedHomeRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/play/family': typeof AuthenticatedPlayFamilyRoute
+  '/play/pairs': typeof AuthenticatedPlayPairsRoute
+  '/play/routine': typeof AuthenticatedPlayRoutineRoute
   '/play/sequence': typeof AuthenticatedPlaySequenceRoute
 }
 export interface FileRoutesById {
@@ -86,6 +103,8 @@ export interface FileRoutesById {
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/play/family': typeof AuthenticatedPlayFamilyRoute
+  '/_authenticated/play/pairs': typeof AuthenticatedPlayPairsRoute
+  '/_authenticated/play/routine': typeof AuthenticatedPlayRoutineRoute
   '/_authenticated/play/sequence': typeof AuthenticatedPlaySequenceRoute
 }
 export interface FileRouteTypes {
@@ -97,6 +116,8 @@ export interface FileRouteTypes {
     | '/home'
     | '/profile'
     | '/play/family'
+    | '/play/pairs'
+    | '/play/routine'
     | '/play/sequence'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -106,6 +127,8 @@ export interface FileRouteTypes {
     | '/home'
     | '/profile'
     | '/play/family'
+    | '/play/pairs'
+    | '/play/routine'
     | '/play/sequence'
   id:
     | '__root__'
@@ -116,6 +139,8 @@ export interface FileRouteTypes {
     | '/_authenticated/home'
     | '/_authenticated/profile'
     | '/_authenticated/play/family'
+    | '/_authenticated/play/pairs'
+    | '/_authenticated/play/routine'
     | '/_authenticated/play/sequence'
   fileRoutesById: FileRoutesById
 }
@@ -176,6 +201,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPlayFamilyRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/play/pairs': {
+      id: '/_authenticated/play/pairs'
+      path: '/play/pairs'
+      fullPath: '/play/pairs'
+      preLoaderRoute: typeof AuthenticatedPlayPairsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/play/routine': {
+      id: '/_authenticated/play/routine'
+      path: '/play/routine'
+      fullPath: '/play/routine'
+      preLoaderRoute: typeof AuthenticatedPlayRoutineRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/play/sequence': {
       id: '/_authenticated/play/sequence'
       path: '/play/sequence'
@@ -191,6 +230,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedPlayFamilyRoute: typeof AuthenticatedPlayFamilyRoute
+  AuthenticatedPlayPairsRoute: typeof AuthenticatedPlayPairsRoute
+  AuthenticatedPlayRoutineRoute: typeof AuthenticatedPlayRoutineRoute
   AuthenticatedPlaySequenceRoute: typeof AuthenticatedPlaySequenceRoute
 }
 
@@ -199,6 +240,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedPlayFamilyRoute: AuthenticatedPlayFamilyRoute,
+  AuthenticatedPlayPairsRoute: AuthenticatedPlayPairsRoute,
+  AuthenticatedPlayRoutineRoute: AuthenticatedPlayRoutineRoute,
   AuthenticatedPlaySequenceRoute: AuthenticatedPlaySequenceRoute,
 }
 

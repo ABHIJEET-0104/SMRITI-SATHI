@@ -194,4 +194,37 @@ Whenever altering the codebase, record each significant decision below using the
 - **Rationale**: Creates an emotionally coherent, welcoming brand atmosphere across the top-of-funnel experience, reassuring elderly patients and caregivers while maintaining pristine readability.
 - **Impact & Trade-offs**: Lightweight PNG asset (862KB) stored in `public/images/`; zero extra network requests between screens due to browser caching; 100% accessible.
 
+---
+
+### ADR-014: Cognitive Stimulation Game Suite Expansion: Daily Routine Sequencing & Card Flip Pairs
+- **Date**: 2026-09-12
+- **Status**: Accepted
+- **Context**: Smriti Sathi previously offered two cognitive games: *Family Memory Match* (Episodic Memory / Face-Name Association) and *Sequence Memory* (Visual-Spatial Working Memory). To provide a well-rounded cognitive stimulation regimen for elders with MCI / early-stage dementia, additional games were needed targeting **temporal orientation / executive sequencing** (common daily living impairment) and **tactile visual pair matching** (delayed visual recall).
+- **Decision**:
+  1. **Game 3: Daily Routine Sequencing (`routine_sequencing`)**:
+     - *Route*: [`src/routes/_authenticated/play.routine.tsx`](file:///i:/Projects/Smrithi-sathi/src/routes/_authenticated/play.routine.tsx).
+     - *Cognitive Domain*: Circadian / chronological sequencing and Activities of Daily Living (ADL) memory.
+     - *Mechanics*: Elders order illustrated daily life events from morning to night across Easy (2 items), Medium (3 items), and Hard (4 items).
+     - *Voice Guidance*: Spoken prompts (*"What happens first?"*, *"What comes next?"*, *"Well done!"*) in the elder's selected language.
+  2. **Game 4: Card Flip Pairs (`card_flip_pairs`)**:
+     - *Route*: [`src/routes/_authenticated/play.pairs.tsx`](file:///i:/Projects/Smrithi-sathi/src/routes/_authenticated/play.pairs.tsx).
+     - *Cognitive Domain*: Visual-spatial working memory and delayed recognition.
+     - *Mechanics*: Serene, culturally relatable cards (Diya 🪔, Lotus 🌸, Tea cup ☕, Dove 🕊️, Apple 🍎, Veena 🪕, Tree 🌳, Sun ☀️) scaled across Easy (4 cards/2 pairs), Medium (6 cards/3 pairs), and Hard (8 cards/4 pairs).
+  3. **Unified Game Session & Metric Tracking**:
+     - Both games record sessions via [`useGameSession()`](file:///i:/Projects/Smrithi-sathi/src/hooks/use-game-session.ts), storing idempotent UUID sessions in `localStorage` (`smriti_sync_queue_v1`) and syncing to Supabase `game_sessions`.
+     - Integrated with deterministic difficulty recommendations via [`recommendNextDifficulty`](file:///i:/Projects/Smrithi-sathi/src/lib/api.functions.ts) and [`ResultPanel`](file:///i:/Projects/Smrithi-sathi/src/components/result-panel.tsx).
+  4. **Home Screen & Caregiver Dashboard Integration**:
+     - Home screen displays 4 responsive game cards with distinct high-contrast tones (Primary, Accent, Amber, Emerald).
+     - Caregiver dashboard expands `GAMES` registry and dynamically displays metrics, trends, and difficulty advice for all 4 games.
+  5. **Multilingual Inclusivity**:
+     - Full translation coverage across all 6 supported Indic languages (`en`, `hi`, `mr`, `as`, `bn`, `lus`) in `src/lib/i18n.ts`.
+- **Rationale**:
+  - Anchors elders in daily circadian routines, directly supporting independence in daily life.
+  - Zero timer anxiety, mistake-tolerant interactions, and complete offline functionality without external ML dependencies.
+- **Alternatives Considered**:
+  - *Fast-paced Stroop or speed math puzzles*: Rejected because time pressure and complex rules trigger clinical anxiety and agitation in elderly dementia patients.
+- **Impact & Trade-offs**:
+  - Richer cognitive exercise portfolio without adding third-party npm packages or database migration friction.
+
+
 

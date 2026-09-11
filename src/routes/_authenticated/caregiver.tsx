@@ -47,6 +47,8 @@ export const Route = createFileRoute("/_authenticated/caregiver")({
 const GAMES = [
   { id: "family_memory_match", key: "family_game" },
   { id: "sequence_memory", key: "sequence_game" },
+  { id: "routine_sequencing", key: "routine_game" },
+  { id: "card_flip_pairs", key: "pairs_game" },
 ];
 
 function CaregiverDashboard() {
@@ -555,9 +557,10 @@ function CaregiverDashboard() {
                       {(results.data ?? []).map((row: any) => (
                         <tr key={row.session_id} className="border-t border-border">
                           <td className="py-3 pr-4">
-                            {row.game_id === "sequence_memory"
-                              ? t("sequence_game")
-                              : t("family_game")}
+                            {(() => {
+                              const match = GAMES.find((g) => g.id === row.game_id);
+                              return match ? t(match.key as any) : row.game_id;
+                            })()}
                             <span className="block text-sm text-muted-foreground">
                               {new Date(row.played_at).toLocaleString()}
                             </span>

@@ -496,7 +496,11 @@ export const seedDemoData = createServerFn({ method: "POST" })
         { acc: 0.72, mis: 2, rt: 4800, diff: "medium", game: "sequence_memory" },
         { acc: 0.8, mis: 2, rt: 4100, diff: "medium", game: "family_memory_match" },
         { acc: 0.85, mis: 1, rt: 3700, diff: "medium", game: "sequence_memory" },
+        { acc: 0.75, mis: 2, rt: 4300, diff: "easy", game: "routine_sequencing" },
         { acc: 0.88, mis: 1, rt: 3400, diff: "medium", game: "family_memory_match" },
+        { acc: 0.82, mis: 1, rt: 3600, diff: "easy", game: "card_flip_pairs" },
+        { acc: 0.86, mis: 1, rt: 3200, diff: "medium", game: "routine_sequencing" },
+        { acc: 0.9, mis: 1, rt: 2900, diff: "medium", game: "card_flip_pairs" },
       ];
       const rows = history.map((h, index) => {
         const total = 8;

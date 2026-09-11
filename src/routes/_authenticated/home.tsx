@@ -90,6 +90,20 @@ function Home() {
               cta={t("start_game")}
               tone="accent"
             />
+            <GameCard
+              to="/play/routine"
+              title={t("routine_game")}
+              description={t("routine_game_desc")}
+              cta={t("start_game")}
+              tone="amber"
+            />
+            <GameCard
+              to="/play/pairs"
+              title={t("pairs_game")}
+              description={t("pairs_game_desc")}
+              cta={t("start_game")}
+              tone="emerald"
+            />
           </div>
         </section>
 
@@ -193,23 +207,33 @@ function GameCard({
   title: string;
   description: string;
   cta: string;
-  tone: "primary" | "accent";
+  tone: "primary" | "accent" | "amber" | "emerald";
 }) {
+  const borderClass =
+    tone === "primary"
+      ? "border-primary/25"
+      : tone === "accent"
+        ? "border-accent/40"
+        : tone === "amber"
+          ? "border-amber-500/30"
+          : "border-emerald-500/30";
+
+  const ctaClass =
+    tone === "primary"
+      ? "gradient-primary text-primary-foreground"
+      : tone === "accent"
+        ? "gradient-accent text-accent-foreground"
+        : tone === "amber"
+          ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-amber-500/20"
+          : "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-emerald-500/20";
+
   return (
-    <div
-      className={`rounded-3xl border bg-card/70 p-6 ${
-        tone === "primary" ? "border-primary/25" : "border-accent/40"
-      }`}
-    >
+    <div className={`rounded-3xl border bg-card/70 p-6 ${borderClass}`}>
       <h3 className="font-display text-2xl font-semibold">{title}</h3>
       <p className="mt-1 text-lg text-muted-foreground">{description}</p>
       <Link
         to={to}
-        className={`mt-6 flex min-h-14 items-center justify-center rounded-xl text-lg font-semibold shadow-[var(--shadow-lift)] ${
-          tone === "primary"
-            ? "gradient-primary text-primary-foreground"
-            : "gradient-accent text-accent-foreground"
-        }`}
+        className={`mt-6 flex min-h-14 items-center justify-center rounded-xl text-lg font-semibold shadow-[var(--shadow-lift)] ${ctaClass}`}
       >
         {cta}
       </Link>

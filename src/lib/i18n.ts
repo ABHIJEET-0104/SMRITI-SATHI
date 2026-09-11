@@ -118,6 +118,12 @@ const en: Dict = {
   sequence_game: "Sequence Memory",
   sequence_game_desc:
     "Watch a short pattern, then repeat it.",
+  routine_game: "Daily Routine Sequencing",
+  routine_game_desc:
+    "Arrange daily activities in the order they happen.",
+  pairs_game: "Card Flip Pairs",
+  pairs_game_desc:
+    "Flip cards to find matching pairs.",
   start_game: "Start game",
   todays_reminders: "Today's reminders",
   no_reminders: "No reminders for today.",
@@ -172,6 +178,25 @@ const en: Dict = {
   level_up: "Level passed! Unlocking next level 🎉",
   retry_prompt: "That's okay. Let's watch one more time.",
   highest_level_reached: "Highest level reached",
+
+  routine_instruction: "Put the daily activities in order from morning to night.",
+  what_comes_first: "What happens first in the day?",
+  what_comes_next: "What comes next?",
+  routine_step: "Step",
+  pairs_instruction: "Flip two cards to find matching pairs.",
+  pairs_flip_prompt: "Tap a card to reveal what's underneath.",
+  pairs_match_found: "Pair found! Great job!",
+  pairs_not_match: "Not a match. Let's try again.",
+  pairs_matched: "Pairs matched",
+
+  activity_wake_up: "Wake up in the morning",
+  activity_brush_teeth: "Brush teeth & freshen up",
+  activity_morning_tea: "Morning tea or breakfast",
+  activity_lunch: "Afternoon lunch",
+  activity_evening_walk: "Evening gentle walk",
+  activity_dinner: "Evening meal",
+  activity_night_sleep: "Night sleep",
+  activity_take_medicine: "Take daily medicine",
 
   // Caregiver
   caregiver_dashboard: "Caregiver dashboard",
@@ -301,6 +326,12 @@ const hi: Dict = {
   sequence_game: "क्रम स्मृति खेल",
   sequence_game_desc:
     "पैटर्न देखिए, फिर दोहराइए।",
+  routine_game: "दिनचर्या क्रम",
+  routine_game_desc:
+    "दिन की गतिविधियों को सही क्रम में लगाएं।",
+  pairs_game: "स्मृति जोड़ी",
+  pairs_game_desc:
+    "कार्ड पलटकर मिलती-जुलती जोड़ियां खोजें।",
   start_game: "खेल शुरू करें",
   todays_reminders: "आज के अनुस्मारक",
   no_reminders: "आज के लिए कोई अनुस्मारक नहीं है।",
@@ -355,6 +386,25 @@ const hi: Dict = {
   level_up: "स्तर पार हुआ! अगला स्तर खुल रहा है 🎉",
   retry_prompt: "कोई बात नहीं। एक बार फिर ध्यान से देखते हैं।",
   highest_level_reached: "उच्चतम स्तर",
+
+  routine_instruction: "सुबह से रात तक की गतिविधियों को सही क्रम में लगाएं।",
+  what_comes_first: "दिन में सबसे पहले क्या होता है?",
+  what_comes_next: "इसके बाद क्या आता है?",
+  routine_step: "चरण",
+  pairs_instruction: "जोड़ी ढूंढने के लिए दो कार्ड पलटें।",
+  pairs_flip_prompt: "कार्ड देखने के लिए उस पर टैप करें।",
+  pairs_match_found: "जोड़ी मिल गई! बहुत बढ़िया!",
+  pairs_not_match: "यह मेल नहीं खाया। दोबारा प्रयास करें।",
+  pairs_matched: "जोड़ियां मिलीं",
+
+  activity_wake_up: "सुबह जागना",
+  activity_brush_teeth: "दांत साफ करना और नहाना",
+  activity_morning_tea: "सुबह की चाय या नाश्ता",
+  activity_lunch: "दोपहर का भोजन",
+  activity_evening_walk: "शाम की सैर",
+  activity_dinner: "रात का भोजन",
+  activity_night_sleep: "रात को सोना",
+  activity_take_medicine: "दवा लेना",
 
   // Caregiver
   caregiver_dashboard: "देखभालकर्ता डैशबोर्ड",
@@ -484,6 +534,12 @@ const mr: Dict = {
   sequence_game: "क्रम स्मृती खेळ",
   sequence_game_desc:
     "नमुना पाहा, नंतर तो पुन्हा करा.",
+  routine_game: "दैनिक दिनक्रम",
+  routine_game_desc:
+    "दिवसाच्या कामांना योग्य क्रमाने लावा.",
+  pairs_game: "जोडी जुळवा",
+  pairs_game_desc:
+    "कार्ड उलटवून जुळणाऱ्या जोड्या शोधा.",
   start_game: "खेळ सुरू करा",
   todays_reminders: "आजच्या आठवणी",
   no_reminders: "आजसाठी कोणत्याही आठवणी नाहीत.",
@@ -538,6 +594,25 @@ const mr: Dict = {
   level_up: "पातळी पूर्ण झाली! पुढची पातळी सुरू होत आहे 🎉",
   retry_prompt: "काही हरकत नाही. पुन्हा एकदा काळजीपूर्वक पाहूया.",
   highest_level_reached: "सर्वोच्च पातळी गाठली",
+
+  routine_instruction: "सकाळपासून रात्रीपर्यंतची कामे योग्य क्रमाने लावा.",
+  what_comes_first: "दिवसात सर्वात आधी काय घडते?",
+  what_comes_next: "यानंतर काय येते?",
+  routine_step: "टप्पा",
+  pairs_instruction: "जोडी शोधण्यासाठी दोन कार्डे उलटा.",
+  pairs_flip_prompt: "कार्ड पाहण्यासाठी त्यावर टॅप करा.",
+  pairs_match_found: "जोडी जुळली! खूप छान!",
+  pairs_not_match: "ही जोडी जुळली नाही. पुन्हा प्रयत्न करा.",
+  pairs_matched: "जुळलेल्या जोड्या",
+
+  activity_wake_up: "सकाळी उठणे",
+  activity_brush_teeth: "दात घासणे आणि तोंड धुणे",
+  activity_morning_tea: "सकाळचा चहा किंवा नाश्ता",
+  activity_lunch: "दुपारचे जेवण",
+  activity_evening_walk: "संध्याकाळची फेरफटका",
+  activity_dinner: "रात्रीचे जेवण",
+  activity_night_sleep: "रात्री झोपणे",
+  activity_take_medicine: "औषध घेणे",
 
   // Caregiver
   caregiver_dashboard: "काळजीवाहक डॅशबोर्ड",
@@ -667,6 +742,12 @@ const as: Dict = {
   sequence_game: "ক্ৰম স্মৃতি খেল",
   sequence_game_desc:
     "নমুনা চাওক, তাৰ পিছত পুনৰ কৰক।",
+  routine_game: "দৈনন্দিন ৰুটিন ক্ৰম",
+  routine_game_desc:
+    "দৈনন্দিন কামবোৰ সঠিক ক্ৰমত সজাওক।",
+  pairs_game: "জোৰা মিলোৱা",
+  pairs_game_desc:
+    "কাৰ্ড ওলোটাই মিল থকা জোৰা বিচাৰক।",
   start_game: "খেল আৰম্ভ কৰক",
   todays_reminders: "আজিৰ সোঁৱৰাই দিয়া",
   no_reminders: "আজিৰ বাবে কোনো সোঁৱৰাই দিয়া নাই।",
@@ -680,7 +761,7 @@ const as: Dict = {
   profile: "প্ৰফাইল",
   language: "ভাষা",
   caregiver: "যত্ন লওতা",
-  care_code: "যত্ন কোড",
+  care_code: "যত্ন কোड",
   care_code_hint:
     "এই কোডটো আপোনাৰ যত্ন লওতাক দিয়ক যাতে তেওঁলোকে আপোনাৰ অগ্ৰগতি অনুসৰণ কৰিব পাৰে।",
   not_linked: "এতিয়াও লিংক কৰা হোৱা নাই",
@@ -721,6 +802,25 @@ const as: Dict = {
   level_up: "স্তৰ সম্পূৰ্ণ হ'ল! পৰৱৰ্তী স্তৰ মুকলি হৈছে 🎉",
   retry_prompt: "কোনো চিন্তা নাই। পুনৰ এবাৰ ভালদৰে চাওঁ।",
   highest_level_reached: "সৰ্বোচ্চ স্তৰ পালে",
+
+  routine_instruction: "ৰাতিপুৱাৰ পৰা ৰাতিলৈকে কামবোৰ ক্ৰম অনুসৰি সজাওক।",
+  what_comes_first: "দিনটোত প্ৰথমে কি কৰা হয়?",
+  what_comes_next: "ইয়াৰ পিছত কি আহে?",
+  routine_step: "স্তৰ",
+  pairs_instruction: "জোৰা বিচাৰিবলৈ দুখন কাৰ্ড ওলোটাওক।",
+  pairs_flip_prompt: "কাৰ্ড চাবলৈ স্পৰ্শ কৰক।",
+  pairs_match_found: "জোৰা মিলিছে! বৰ ভাল!",
+  pairs_not_match: "মেলা নাই। আকৌ এবাৰ চেষ্টা কৰক।",
+  pairs_matched: "মিলা জোৰা",
+
+  activity_wake_up: "ৰাতিপুৱা শোৱাৰ পৰা উঠা",
+  activity_brush_teeth: "দাঁত ঘঁহা আৰু মুখ ধোৱা",
+  activity_morning_tea: "পুৱাৰ চাহ বা জলপান",
+  activity_lunch: "দুপৰীয়াৰ আহাৰ",
+  activity_evening_walk: "গধূলিৰ খোজ কঢ়া",
+  activity_dinner: "ৰাতিৰ আহাৰ",
+  activity_night_sleep: "ৰাতি শোৱা",
+  activity_take_medicine: "দৰব খোৱা",
 
   // Caregiver
   caregiver_dashboard: "যত্ন লওতাৰ ডেশ্বব'ৰ্ড",
@@ -850,6 +950,12 @@ const bn: Dict = {
   sequence_game: "ক্রম স্মৃতি খেলা",
   sequence_game_desc:
     "একটি সংক্ষিপ্ত প্যাটার্ন দেখুন, তারপর তা পুনরাবৃত্তি করুন।",
+  routine_game: "দৈনন্দিন রুটিন ক্রম",
+  routine_game_desc:
+    "দিনের কাজগুলি সঠিক ক্রমে সাজান।",
+  pairs_game: "জোড়া মেলানো",
+  pairs_game_desc:
+    "কার্ড উল্টে মিল থাকা জোড়া খুঁজুন।",
   start_game: "খেলা শুরু করুন",
   todays_reminders: "আজকের অনুস্মারক",
   no_reminders: "আজকের জন্য কোনো অনুস্মারক নেই।",
@@ -904,6 +1010,25 @@ const bn: Dict = {
   level_up: "স্তর পার হয়েছে! পরবর্তী স্তর আনলক হচ্ছে 🎉",
   retry_prompt: "কোনো চিন্তা নেই। আসুন আরও একবার মনোযোগ দিয়ে দেখি।",
   highest_level_reached: "সর্বোচ্চ স্তর অর্জিত",
+
+  routine_instruction: "সকাল থেকে রাত পর্যন্ত কাজগুলি সঠিক ক্রমে সাজান।",
+  what_comes_first: "দিনের শুরুতে প্রথমে কী হয়?",
+  what_comes_next: "এর পরে কী আসে?",
+  routine_step: "ধাপ",
+  pairs_instruction: "জোড়া খুঁজতে দুটি কার্ড উল্টান।",
+  pairs_flip_prompt: "কার্ড দেখতে ট্যাপ করুন।",
+  pairs_match_found: "জোড়া মিলে গেছে! দারুণ!",
+  pairs_not_match: "মেলেনি। আবার চেষ্টা করুন।",
+  pairs_matched: "মেলা জোড়া",
+
+  activity_wake_up: "সকালে ঘুম থেকে ওঠা",
+  activity_brush_teeth: "দাঁত মাজা ও মুখ ধোয়া",
+  activity_morning_tea: "সকালের চা বা জলখাবার",
+  activity_lunch: "দুপুরের খাবার",
+  activity_evening_walk: "বিকেলের হাঁটা",
+  activity_dinner: "রাতের খাবার",
+  activity_night_sleep: "রাতে ঘুমানো",
+  activity_take_medicine: "ওষুধ খাওয়া",
 
   // Caregiver
   caregiver_dashboard: "যত্নশীল ড্যাশবোর্ড",
@@ -1033,6 +1158,12 @@ const lus: Dict = {
   sequence_game: "Indawt Hriatreuna",
   sequence_game_desc:
     "Entirna en la, a dawt zelin zawm rawh.",
+  routine_game: "Nit Tin Dan Indawt",
+  routine_game_desc:
+    "Nit tin thiltih te a indawtin rem rawh.",
+  pairs_game: "Card Inang Zawnna",
+  pairs_game_desc:
+    "Card inthlep te keuvin a inang zawng rawh.",
   start_game: "Khel ṭan rawh",
   todays_reminders: "Vawiin hriattirnate",
   no_reminders: "Vawiin atan hriattirna a awm lo.",
@@ -1087,6 +1218,25 @@ const lus: Dict = {
   level_up: "Level i zo ta! A dawt chhawng a inhawng e 🎉",
   retry_prompt: "A pawi lo ve. Vawikhat uluk takin i en nawn leh ang hmiang.",
   highest_level_reached: "Level sang ber thlen chin",
+
+  routine_instruction: "Zing aṭanga zan thlengin a indawtin thiltih te rem rawh.",
+  what_comes_first: "Zing karah enge hmasa ber?",
+  what_comes_next: "Enge a dawt leh?",
+  routine_step: "Hemi dawt",
+  pairs_instruction: "A inang zawng turin card pahnih keu rawh.",
+  pairs_flip_prompt: "Card keu turin hmet rawh.",
+  pairs_match_found: "A inang i hmu ta! A ṭha lutuk!",
+  pairs_not_match: "A inang lo. Han ti nawn leh teh.",
+  pairs_matched: "Inang hmuh tawh",
+
+  activity_wake_up: "Zing thawh",
+  activity_brush_teeth: "Ha nawh leh inphih fai",
+  activity_morning_tea: "Zing thingpui leh chaw",
+  activity_lunch: "Chhunchaw eitur",
+  activity_evening_walk: "Tlailam lenkual",
+  activity_dinner: "Zanchaw eitur",
+  activity_night_sleep: "Zana mut",
+  activity_take_medicine: "Damdawi ei",
 
   // Caregiver
   caregiver_dashboard: "Enkawltu Dashboard",

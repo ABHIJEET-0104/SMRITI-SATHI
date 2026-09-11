@@ -27,11 +27,13 @@ flowchart TD
         AuthLayout --> Caregiver["/caregiver (Caregiver Dashboard)"]
         AuthLayout --> FamilyMatch["/play/family (Family Memory Match)"]
         AuthLayout --> SequenceMatch["/play/sequence (Sequence Memory)"]
+        AuthLayout --> RoutineMatch["/play/routine (Daily Routine Sequencing)"]
+        AuthLayout --> PairsMatch["/play/pairs (Card Flip Pairs)"]
         AuthLayout --> Profile["/profile (Settings & Locale)"]
     end
 
     subgraph GameRuntime["Game Loop & Telemetry"]
-        FamilyMatch & SequenceMatch --> UseGameSession["src/hooks/use-game-session.ts"]
+        FamilyMatch & SequenceMatch & RoutineMatch & PairsMatch --> UseGameSession["src/hooks/use-game-session.ts"]
         UseGameSession --> Voice["VoiceService (src/lib/voice.ts)"]
         UseGameSession --> Metrics["Calculate Accuracy, Errors & Response Time"]
         Metrics --> OfflineQueue["enqueueSession() -> localStorage"]
@@ -95,12 +97,14 @@ AppProvider Mount
   - If no session or an error occurs, it throws a redirect to `/auth`.
 - **Elder Dashboard ([`src/routes/_authenticated/home.tsx`](file:///i:/Projects/Smrithi-sathi/src/routes/_authenticated/home.tsx))**:
   - Displays large, high-contrast action cards for:
-    - **Family Memory Match** (`/play/family`)
-    - **Sequence Memory** (`/play/sequence`)
+    - **Family Memory Match** (`/play/family`) — Episodic social memory
+    - **Sequence Memory** (`/play/sequence`) — Working visual-spatial recall
+    - **Daily Routine Sequencing** (`/play/routine`) — Chronological circadian orientation
+    - **Card Flip Pairs** (`/play/pairs`) — Visual pair recognition & tactile focus
   - Displays daily routine and medication reminders with one-tap completion acknowledgment.
 - **Caregiver Command Hub ([`src/routes/_authenticated/caregiver.tsx`](file:///i:/Projects/Smrithi-sathi/src/routes/_authenticated/caregiver.tsx))**:
   - Fetches associated elders via `getMe()` and selected elder details via `getElderOverview()`.
-  - Displays game activity trends using [`src/components/trend-chart.tsx`](file:///i:/Projects/Smrithi-sathi/src/components/trend-chart.tsx).
+  - Displays game activity trends using [`src/components/trend-chart.tsx`](file:///i:/Projects/Smrithi-sathi/src/components/trend-chart.tsx) across all 4 cognitive games.
   - Photo management (uploading portraits with relationship tags for Family Memory Match).
   - Scheduling and managing medication / routine reminders.
   - Generating and linking 6-character Care Codes (`linkElderCaregiver`).
@@ -109,12 +113,12 @@ AppProvider Mount
 
 ## 5. Game Loop & Session Telemetry
 
-Both cognitive games follow an identical, standardized lifecycle managed by [`src/hooks/use-game-session.ts`](file:///i:/Projects/Smrithi-sathi/src/hooks/use-game-session.ts):
+All four cognitive games follow an identical, standardized lifecycle managed by [`src/hooks/use-game-session.ts`](file:///i:/Projects/Smrithi-sathi/src/hooks/use-game-session.ts):
 
 ```mermaid
 sequenceDiagram
     autonumber
-    participant UI as Game UI (play.family / play.sequence)
+    participant UI as Game UI (play.family / play.sequence / play.routine / play.pairs)
     participant SessionHook as useGameSession
     participant Voice as VoiceService
     participant Offline as src/lib/offline.ts
