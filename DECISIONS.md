@@ -121,3 +121,19 @@ Whenever altering the codebase, record each significant decision below using the
   - Execution flows across entry points, game loops, auth, and state must be maintained in `FLOW.md`.
   - A self-quiz protocol must be conducted before accepting major changes.
 - **Rationale**: Prevents architectural drift, ensures maintainability across long development cycles, and ensures pair-programming comprehension.
+
+---
+
+### ADR-009: In-Session Multi-Tier Progressive Grid for Sequence Memory
+- **Date**: 2026-09-11
+- **Status**: Accepted
+- **Context**: Static game sessions (fixed 4-pad grid with fixed length) caused either immediate confusion for low-vision/tremor elders or lack of progressive challenge.
+- **Decision**:
+  - Implement progressive in-session tiers named **Easy**, **Medium**, and **Hard**.
+  - **Easy**: 2 large tiles (1x2 grid), 2-step sequence.
+  - **Medium**: 4 tiles (2x2 grid), 3-step sequence.
+  - **Hard**: 6 tiles (2x3 grid), 4-step sequence.
+  - Pass threshold: 100% match promotes elder to next tier with celebratory UI and voice praise.
+  - Mistake handling: 1 gentle retry per tier (*"कोई बात नहीं, एक बार फिर देखते हैं"*). If retry fails, the session ends calmly, celebrating highest level achieved without penalization.
+- **Rationale**: Reduces initial cognitive clutter (Hick's Law), prevents demoralizing game-over states for dementia patients, and gives caregivers granular progression telemetry.
+- **Impact & Trade-offs**: Grid scales dynamically; all level transitions preserve responsive design tokens and WCAG AAA color contrast.

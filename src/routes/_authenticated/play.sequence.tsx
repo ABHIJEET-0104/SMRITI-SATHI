@@ -9,18 +9,62 @@ import { ResultPanel } from "@/components/result-panel";
 import { useApp } from "@/hooks/use-app";
 import { useGameSession, type GameResult } from "@/hooks/use-game-session";
 import { recommendNextDifficulty } from "@/lib/api.functions";
-import { DIFFICULTY_CONFIG, asDifficulty } from "@/lib/performance";
+import { asDifficulty } from "@/lib/performance";
 import { VoiceService } from "@/lib/voice";
 
 const GAME_ID = "sequence_memory";
-const ROUNDS = 5;
 
- const PADS = [
+export type GameLevel = "easy" | "medium" | "hard";
+
+interface LevelConfig {
+  level: GameLevel;
+  labelKey: "easy" | "medium" | "hard";
+  tilesCount: number;
+  sequenceLength: number;
+  flashDurationMs: number;
+  gapDurationMs: number;
+  gridClassName: string;
+}
+
+const LEVEL_CONFIGS: Record<GameLevel, LevelConfig> = {
+  easy: {
+    level: "easy",
+    labelKey: "easy",
+    tilesCount: 2,
+    sequenceLength: 2,
+    flashDurationMs: 750,
+    gapDurationMs: 280,
+    gridClassName: "grid-cols-2 max-w-sm",
+  },
+  medium: {
+    level: "medium",
+    labelKey: "medium",
+    tilesCount: 4,
+    sequenceLength: 3,
+    flashDurationMs: 650,
+    gapDurationMs: 250,
+    gridClassName: "grid-cols-2 max-w-md",
+  },
+  hard: {
+    level: "hard",
+    labelKey: "hard",
+    tilesCount: 6,
+    sequenceLength: 4,
+    flashDurationMs: 550,
+    gapDurationMs: 220,
+    gridClassName: "grid-cols-3 max-w-lg",
+  },
+};
+
+const PADS = [
   { id: 0, label: "1", className: "bg-primary text-primary-foreground" },
   { id: 1, label: "2", className: "bg-accent text-accent-foreground" },
   { id: 2, label: "3", className: "bg-positive text-primary-foreground" },
   { id: 3, label: "4", className: "bg-red-500 text-white" },
+  { id: 4, label: "5", className: "bg-purple-600 text-white" },
+  { id: 5, label: "6", className: "bg-teal-600 text-white" },
 ];
+
 export const Route = createFileRoute("/_authenticated/play/sequence")({
   head: () => ({
     meta: [
@@ -28,16 +72,16 @@ export const Route = createFileRoute("/_authenticated/play/sequence")({
       {
         name: "description",
         content:
-          "Watch a short pattern of large coloured tiles, then repeat it. The pattern length follows recent game performance.",
+          "Watch a short pattern of large coloured tiles, then repeat it. Progress through Easy, Medium, and Hard tiers.",
       },
       { property: "og:title", content: "Sequence Memory" },
-      { property: "og:description", content: "Watch a pattern, then repeat it. Simple and calm." },
+      { property: "og:description", content: "Watch a pattern, then repeat it. Simple, calm, and progressive." },
     ],
   }),
   component: SequenceGame,
 });
 
-type Phase = "intro" | "watch" | "input" | "feedback" | "done";
+type Phase = "intro" | "watch" | "input" | "feedback" | "level_up" | "retry" | "done";
 
 function SequenceGame() {
   const { profile, t } = useApp();
@@ -51,11 +95,13 @@ function SequenceGame() {
     queryFn: () => recommend({ data: { user_id: userId!, game_id: GAME_ID } }),
   });
 
-  const difficulty = asDifficulty(recommendation?.recommended_difficulty);
-  const config = DIFFICULTY_CONFIG[difficulty];
+  const initialDifficulty = asDifficulty(recommendation?.recommended_difficulty);
+
+  const [currentLevel, setCurrentLevel] = useState<GameLevel>("easy");
+  const [highestLevel, setHighestLevel] = useState<GameLevel>("easy");
+  const [hasRetriedCurrent, setHasRetriedCurrent] = useState(false);
 
   const [phase, setPhase] = useState<Phase>("intro");
-  const [round, setRound] = useState(0);
   const [sequence, setSequence] = useState<number[]>([]);
   const [litPad, setLitPad] = useState<number | null>(null);
   const [entered, setEntered] = useState<number[]>([]);
@@ -66,27 +112,37 @@ function SequenceGame() {
   const [result, setResult] = useState<GameResult | null>(null);
   const inputStart = useRef(0);
 
-  function makeSequence() {
-    return Array.from({ length: config.sequenceLength }, () => Math.floor(Math.random() * 4));
+  const currentConfig = LEVEL_CONFIGS[currentLevel];
+  const activePads = PADS.slice(0, currentConfig.tilesCount);
+
+  function makeSequence(level: GameLevel) {
+    const cfg = LEVEL_CONFIGS[level];
+    return Array.from({ length: cfg.sequenceLength }, () =>
+      Math.floor(Math.random() * cfg.tilesCount),
+    );
   }
 
   function start() {
-    setRound(0);
+    setCurrentLevel("easy");
+    setHighestLevel("easy");
+    setHasRetriedCurrent(false);
     setCorrect(0);
     setMistakes(0);
     setTimes([]);
     setResult(null);
-    setSequence(makeSequence());
+    setSequence(makeSequence("easy"));
     setEntered([]);
     setPhase("watch");
     VoiceService.speak("sequence_instruction");
   }
 
-  // Play the pattern back one tile at a time, then hand over to the player.
+  // Play pattern playback
   useEffect(() => {
     if (phase !== "watch" || sequence.length === 0) return;
+    const cfg = LEVEL_CONFIGS[currentLevel];
     let step = 0;
     let cancelled = false;
+
     const showNext = () => {
       if (cancelled) return;
       if (step >= sequence.length) {
@@ -102,15 +158,16 @@ function SequenceGame() {
         if (cancelled) return;
         setLitPad(null);
         step += 1;
-        window.setTimeout(showNext, 260);
-      }, 700);
+        window.setTimeout(showNext, cfg.gapDurationMs);
+      }, cfg.flashDurationMs);
     };
-    const timer = window.setTimeout(showNext, 900);
+
+    const timer = window.setTimeout(showNext, 850);
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [phase, sequence]);
+  }, [phase, sequence, currentLevel]);
 
   function tap(padId: number) {
     if (phase !== "input") return;
@@ -125,8 +182,17 @@ function SequenceGame() {
       setTimes((list) => [...list, Date.now() - inputStart.current]);
       setRoundRight(false);
       setEntered(next);
-      VoiceService.speak("incorrect_feedback");
-      setPhase("feedback");
+
+      if (!hasRetriedCurrent) {
+        // First error on this level -> allow 1 gentle retry
+        setHasRetriedCurrent(true);
+        VoiceService.speak("retry_prompt");
+        setPhase("retry");
+      } else {
+        // Error on retry -> conclude gently without frustration
+        VoiceService.speak("incorrect_feedback");
+        setPhase("feedback");
+      }
       return;
     }
 
@@ -135,36 +201,75 @@ function SequenceGame() {
       setTimes((list) => [...list, Date.now() - inputStart.current]);
       setCorrect((c) => c + 1);
       setRoundRight(true);
-      VoiceService.speak("correct_feedback");
-      setPhase("feedback");
+
+      if (currentLevel === "easy") {
+        setHighestLevel("medium");
+        VoiceService.speak("correct_feedback");
+        setPhase("level_up");
+      } else if (currentLevel === "medium") {
+        setHighestLevel("hard");
+        VoiceService.speak("correct_feedback");
+        setPhase("level_up");
+      } else {
+        // Mastered Hard tier
+        VoiceService.speak("game_complete");
+        setPhase("done");
+      }
     }
   }
 
-  // Next round, or finish.
+  // Handle gentle retry
+  useEffect(() => {
+    if (phase !== "retry") return;
+    const timer = window.setTimeout(() => {
+      setEntered([]);
+      setSequence(makeSequence(currentLevel));
+      setPhase("watch");
+    }, 2000);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, currentLevel]);
+
+  // Handle level promotion
+  useEffect(() => {
+    if (phase !== "level_up") return;
+    const timer = window.setTimeout(() => {
+      if (currentLevel === "easy") {
+        setCurrentLevel("medium");
+        setHasRetriedCurrent(false);
+        setEntered([]);
+        setSequence(makeSequence("medium"));
+        setPhase("watch");
+      } else if (currentLevel === "medium") {
+        setCurrentLevel("hard");
+        setHasRetriedCurrent(false);
+        setEntered([]);
+        setSequence(makeSequence("hard"));
+        setPhase("watch");
+      }
+    }, 2000);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, currentLevel]);
+
+  // Handle failed attempt after retry
   useEffect(() => {
     if (phase !== "feedback") return;
     const timer = window.setTimeout(() => {
-      if (round + 1 >= ROUNDS) {
-        VoiceService.speak("game_complete");
-        setPhase("done");
-      } else {
-        setRound((r) => r + 1);
-        setSequence(makeSequence());
-        setEntered([]);
-        setPhase("watch");
-      }
+      VoiceService.speak("game_complete");
+      setPhase("done");
     }, 1800);
     return () => window.clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, round]);
+  }, [phase]);
 
-  // Store the result once, when the game ends.
+  // Store final result
   useEffect(() => {
     if (phase !== "done" || result) return;
+    const total = Math.max(1, correct + mistakes);
     void finish({
       gameId: GAME_ID,
-      difficulty,
-      totalQuestions: ROUNDS,
+      difficulty: highestLevel,
+      totalQuestions: total,
       correctAnswers: correct,
       mistakes,
       responseTimes: times,
@@ -185,22 +290,44 @@ function SequenceGame() {
               <h1 className="font-display text-3xl font-bold">{t("sequence_game")}</h1>
               {phase !== "intro" && phase !== "done" && (
                 <p className="mt-1 text-lg text-muted-foreground">
-                  {t("question_of")} {round + 1} {t("of")} {ROUNDS} ·{" "}
+                  {t("level")}: <span className="font-semibold text-foreground">{t(currentLevel)}</span> ({currentConfig.tilesCount} {t("tiles_count") || "tiles"}) ·{" "}
                   {phase === "watch" ? t("watch") : t("your_turn")}
                 </p>
               )}
             </div>
-            <span className="rounded-full border border-border bg-card/70 px-4 py-2 text-sm font-semibold">
-              {t("suggested_level")}: {t(difficulty)}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="rounded-full border border-border bg-card/70 px-4 py-2 text-sm font-semibold">
+                {t("level")}: <strong className="text-primary">{t(currentLevel)}</strong>
+              </span>
+            </div>
           </div>
 
           {phase === "intro" && (
             <div className="mt-6">
               <p className="text-xl text-muted-foreground">{t("sequence_game_desc")}</p>
               {recommendation && (
-                <p className="mt-2 text-base text-muted-foreground">{recommendation.reason}.</p>
+                <p className="mt-2 text-base text-muted-foreground">
+                  {recommendation.reason} ({t("suggested_level")}: {t(initialDifficulty)}).
+                </p>
               )}
+
+              <div className="mt-5 grid grid-cols-3 gap-3">
+                {(["easy", "medium", "hard"] as GameLevel[]).map((lvl) => {
+                  const cfg = LEVEL_CONFIGS[lvl];
+                  return (
+                    <div
+                      key={lvl}
+                      className="rounded-2xl border border-border bg-card/60 p-3 text-center"
+                    >
+                      <p className="font-display text-base font-semibold">{t(lvl)}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {cfg.tilesCount} tiles · {cfg.sequenceLength} steps
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+
               <button
                 type="button"
                 onClick={start}
@@ -213,11 +340,28 @@ function SequenceGame() {
 
           {phase !== "intro" && phase !== "done" && (
             <>
+              {phase === "level_up" && (
+                <div className="mt-4 rounded-2xl border border-positive/40 bg-positive/10 p-4 text-center">
+                  <p className="font-display text-xl font-bold text-positive">
+                    {t("level_up")}
+                  </p>
+                </div>
+              )}
+
+              {phase === "retry" && (
+                <div className="mt-4 rounded-2xl border border-accent/50 bg-accent/15 p-4 text-center">
+                  <p className="font-display text-lg font-semibold text-accent-foreground">
+                    {t("retry_prompt")}
+                  </p>
+                </div>
+              )}
+
               <p className="mt-6 text-center font-display text-2xl font-bold">
                 {phase === "watch" ? t("sequence_instruction") : t("repeat_sequence")}
               </p>
-              <div className="mx-auto mt-6 grid max-w-md grid-cols-2 gap-4">
-                {PADS.map((pad) => (
+
+              <div className={`mx-auto mt-6 grid gap-4 ${currentConfig.gridClassName}`}>
+                {activePads.map((pad) => (
                   <button
                     key={pad.id}
                     type="button"
@@ -234,6 +378,7 @@ function SequenceGame() {
                   </button>
                 ))}
               </div>
+
               <p className="mt-5 text-center text-lg font-semibold">
                 {phase === "input" && `${entered.length} / ${sequence.length}`}
                 {phase === "feedback" &&
@@ -246,10 +391,11 @@ function SequenceGame() {
             <ResultPanel
               result={result}
               onPlayAgain={start}
-              totalQuestions={ROUNDS}
+              totalQuestions={Math.max(1, correct + mistakes)}
               correct={correct}
               mistakes={mistakes}
               times={times}
+              levelLabel={t(highestLevel)}
             />
           )}
         </section>
@@ -257,3 +403,4 @@ function SequenceGame() {
     </AppShell>
   );
 }
+

@@ -11,6 +11,7 @@ export function ResultPanel({
   correct,
   mistakes,
   times,
+  levelLabel,
 }: {
   result: GameResult | null;
   onPlayAgain: () => void;
@@ -18,6 +19,7 @@ export function ResultPanel({
   correct: number;
   mistakes: number;
   times: number[];
+  levelLabel?: string;
 }) {
   const { t } = useApp();
   const accuracy = result?.accuracy ?? (totalQuestions ? correct / totalQuestions : 0);
@@ -31,6 +33,12 @@ export function ResultPanel({
       <p className="mt-1 text-xl text-muted-foreground">{t("game_complete")}</p>
 
       <dl className="mt-5 grid grid-cols-2 gap-4">
+        {levelLabel && (
+          <div className="col-span-2 rounded-2xl border border-primary/30 bg-primary/10 p-4">
+            <dt className="text-sm font-medium text-primary">{t("highest_level_reached")}</dt>
+            <dd className="font-display text-2xl font-bold text-primary">{levelLabel}</dd>
+          </div>
+        )}
         <Stat label={t("score")} value={`${correct} / ${totalQuestions}`} />
         <Stat label={t("accuracy")} value={`${Math.round(accuracy * 100)}%`} />
         <Stat label={t("mistakes")} value={String(mistakes)} />

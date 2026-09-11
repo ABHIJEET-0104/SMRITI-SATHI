@@ -193,3 +193,9 @@ Whenever files are modified or introduced during coding sessions, log them in th
 | 2026-09-10 | `DECISIONS.md` | Created architectural decision records catalog |
 | 2026-09-10 | `FLOW.md` | Created comprehensive execution and lifecycle documentation |
 | 2026-09-10 | `AGENTS.md` | Added mandatory agent protocols for decision logging, flow maintenance, and self-quizzing |
+| 2026-09-11 | `src/routes/_authenticated/play.sequence.tsx` | Implemented multi-tier Easy/Medium/Hard progression with 2/4/6 tiles and gentle retries |
+| 2026-09-11 | `src/lib/i18n.ts` | Added level, level_up, retry_prompt, highest_level_reached across EN, HI, MR, AS |
+| 2026-09-11 | `src/components/result-panel.tsx` | Added optional levelLabel highlight stat card to celebrate peak tier reached |
+| 2026-09-11 | `DECISIONS.md` | Added ADR-009 for progressive sequence memory grid |
+| 2026-09-11 | `src/components/app-shell.tsx` | Updated signOut to navigate to root landing page (/) instead of direct /auth |
+| 2026-09-11 | `src/routes/_authenticated/route.tsx` | Updated unauthenticated guard to redirect to root landing page (/) |

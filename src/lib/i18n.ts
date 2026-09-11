@@ -151,6 +151,10 @@ const en: Dict = {
     "Your caregiver needs to add family photos before this game can start.",
   watch: "Watch",
   your_turn: "Your turn",
+  level: "Level",
+  level_up: "Level passed! Unlocking next level 🎉",
+  retry_prompt: "That's okay. Let's watch one more time.",
+  highest_level_reached: "Highest level reached",
 
   // Caregiver
   caregiver_dashboard: "Caregiver dashboard",
@@ -325,6 +329,10 @@ const hi: Dict = {
     "यह खेल शुरू करने से पहले आपके देखभालकर्ता को पारिवारिक तस्वीरें जोड़नी होंगी।",
   watch: "देखिए",
   your_turn: "आपकी बारी",
+  level: "स्तर",
+  level_up: "स्तर पार हुआ! अगला स्तर खुल रहा है 🎉",
+  retry_prompt: "कोई बात नहीं। एक बार फिर ध्यान से देखते हैं।",
+  highest_level_reached: "उच्चतम स्तर",
 
   // Caregiver
   caregiver_dashboard: "देखभालकर्ता डैशबोर्ड",
@@ -499,6 +507,10 @@ const mr: Dict = {
     "हा खेळ सुरू करण्यापूर्वी तुमच्या काळजीवाहकाने कौटुंबिक फोटो जोडणे आवश्यक आहे.",
   watch: "पाहा",
   your_turn: "तुमची पाळी",
+  level: "पातळी",
+  level_up: "पातळी पूर्ण झाली! पुढची पातळी सुरू होत आहे 🎉",
+  retry_prompt: "काही हरकत नाही. पुन्हा एकदा काळजीपूर्वक पाहूया.",
+  highest_level_reached: "सर्वोच्च पातळी गाठली",
 
   // Caregiver
   caregiver_dashboard: "काळजीवाहक डॅशबोर्ड",
@@ -673,6 +685,10 @@ const as: Dict = {
     "এই খেল আৰম্ভ কৰাৰ আগতে আপোনাৰ যত্ন লওতাই পৰিয়ালৰ ফটো যোগ কৰিব লাগিব।",
   watch: "চাওক",
   your_turn: "আপোনাৰ পাল",
+  level: "স্তৰ",
+  level_up: "স্তৰ সম্পূৰ্ণ হ'ল! পৰৱৰ্তী স্তৰ মুকলি হৈছে 🎉",
+  retry_prompt: "কোনো চিন্তা নাই। পুনৰ এবাৰ ভালদৰে চাওঁ।",
+  highest_level_reached: "সৰ্বোচ্চ স্তৰ পালে",
 
   // Caregiver
   caregiver_dashboard: "যত্ন লওতাৰ ডেশ্বব'ৰ্ড",
