@@ -30,6 +30,18 @@ export const LANGUAGES = [
     native: "অসমীয়া",
     locale: "as-IN",
   },
+  {
+    code: "bn",
+    label: "Bengali",
+    native: "বাংলা",
+    locale: "bn-IN",
+  },
+  {
+    code: "lus",
+    label: "Mizo",
+    native: "Mizo ṭawng",
+    locale: "lus-IN",
+  },
 ] as const;
 
 export type LanguageCode = (typeof LANGUAGES)[number]["code"];
@@ -770,11 +782,379 @@ const as: Dict = {
   hard: "কঠিন",
 };
 
+const bn: Dict = {
+  ...en,
+
+  app_name: "স্মৃতি সাথী",
+  tagline: "জ্ঞানীয় যত্ন সঙ্গী",
+
+  // Landing Page
+  hero_title:
+    "বয়োজ্যেষ্ঠদের জন্য এক প্রশান্ত স্মৃতি সঙ্গী — এবং তাঁদের পরিবারের জন্য মানসিক শান্তি।",
+
+  hero_description:
+    "স্মৃতি সাথী দুটি সহজ স্মৃতি খেলা, দৈনন্দিন অনুস্মারক এবং আপনার নিজের ভাষায় কথ্য নির্দেশনা প্রদান করে। যত্নশীলরা যেকোনো জায়গা থেকে খেলার পারফরম্যান্স পর্যবেক্ষণ করতে পারেন।",
+
+  feature_memory:
+    "আপনার নিজের পারিবারিক ছবির ওপর ভিত্তি করে দুটি সহজ স্মৃতি খেলা",
+
+  feature_voice:
+    "বাংলা, ইংরেজি, হিন্দি, মারাঠি ও অসমীয়াসহ নিজস্ব ভাষায় কথ্য নির্দেশনা",
+
+  feature_offline:
+    "ইন্টারনেট ছাড়াও খেলাগুলি চলে এবং পরে সিঙ্ক হয়ে যায়",
+
+  feature_caregiver:
+    "যত্নশীলরা শুধুমাত্র খেলার পারফরম্যান্স দেখতে পান — কোনো ডাক্তারি দাবি নয়",
+
+  medical_disclaimer:
+    "স্মৃতি সাথী কোনো চিকিৎসা পরিস্থিতি নির্ণয় করে না। খেলার পারফরম্যান্সের ধারাগুলো শুধুমাত্র তথ্যমূলক এবং ডাক্তারি রোগনির্ণয় নয়।",
+
+  // Auth
+  sign_in: "সাইন ইন করুন",
+  sign_in_patient: "রোগী / প্রবীণ সাইন ইন",
+  sign_in_caregiver: "যত্নশীল সাইন ইন",
+  sign_up: "অ্যাকাউন্ট তৈরি করুন",
+  sign_up_patient: "রোগী / প্রবীণ হিসেবে নিবন্ধন করুন",
+  sign_up_caregiver: "যত্নশীল হিসেবে নিবন্ধন করুন",
+  sign_out: "সাইন আউট",
+  email: "ইমেল",
+  password: "পাসওয়ার্ড",
+  full_name: "পুরো নাম",
+  age: "বয়স",
+  i_am: "আমি একজন",
+  role_elderly: "যিনি খেলা খেলছেন (রোগী / প্রবীণ)",
+  role_caregiver: "পরিবারের সদস্য বা যত্নশীল",
+  login_as_patient: "প্রবীণ / রোগী লগইন",
+  login_as_caregiver: "যত্নশীল লগইন",
+  patient_desc:
+    "জ্ঞানীয় স্মৃতি খেলা খেলুন, দৈনন্দিন অনুস্মারক দেখুন এবং কথ্য সহায়তা শুনুন",
+  caregiver_desc:
+    "খেলার পারফরম্যান্স পর্যবেক্ষণ করুন, পারিবারিক ছবি যুক্ত করুন এবং দৈনন্দিন অনুস্মারক পরিচালনা করুন",
+  patient_signup: "রোগী হিসেবে নিবন্ধন করুন",
+  caregiver_signup: "যত্নশীল হিসেবে নিবন্ধন করুন",
+  continue_google: "Google দিয়ে এগিয়ে যান",
+  have_account: "ইতিমধ্যেই অ্যাকাউন্ট আছে? সাইন ইন করুন",
+  need_account: "নতুন ব্যবহারকারী? অ্যাকাউন্ট তৈরি করুন",
+  check_email:
+    "আপনার অ্যাকাউন্ট নিশ্চিত করতে ইমেল পরীক্ষা করুন, তারপর সাইন ইন করুন।",
+
+  // Home
+  welcome: "স্বাগতম। আপনি কী করতে চান?",
+  home_prompt: "আজ আপনি কী করতে চান?",
+  greeting: "নমস্কার",
+  start_a_game: "একটি খেলা শুরু করুন",
+  family_game: "পারিবারিক স্মৃতি খেলা",
+  family_game_desc:
+    "একটি ছবি দেখুন, তারপর সঠিক নামটি বেছে নিন।",
+  sequence_game: "ক্রম স্মৃতি খেলা",
+  sequence_game_desc:
+    "একটি সংক্ষিপ্ত প্যাটার্ন দেখুন, তারপর তা পুনরাবৃত্তি করুন।",
+  start_game: "খেলা শুরু করুন",
+  todays_reminders: "আজকের অনুস্মারক",
+  no_reminders: "আজকের জন্য কোনো অনুস্মারক নেই।",
+  mark_done: "সম্পন্ন",
+  reminder_done: "সম্পন্ন",
+  reminder_due: "এর সময় হয়েছে:",
+  voice_assistant: "ভয়েস সহকারী",
+  voice_hint: "আপনি কী করতে পারেন তা শুনতে ট্যাপ করুন",
+  voice_unavailable:
+    "এই ডিভাইসে ভয়েস উপলব্ধ নয়। নির্দেশাবলী স্ক্রিনে প্রদর্শিত হচ্ছে।",
+  profile: "প্রোফাইল",
+  language: "ভাষা",
+  caregiver: "যত্নশীল",
+  care_code: "যত্ন কোড",
+  care_code_hint:
+    "এই কোডটি আপনার যত্নশীলকে দিন যাতে তিনি আপনার অগ্রগতি দেখতে পারেন।",
+  not_linked: "এখনো যুক্ত করা হয়নি",
+  back_home: "হোমে ফিরে যান",
+  suggested_level: "প্রস্তাবিত স্তর",
+
+  // Games
+  game_instruction: "ছবিটি মনোযোগ দিয়ে দেখুন।",
+  sequence_instruction: "ক্রমটি মনে রাখুন।",
+  memory_preview: "মনোযোগ দিয়ে দেখুন।",
+  question_prompt: "ইনি কে?",
+  choose_name: "নিচে সঠিক নামে ট্যাপ করুন",
+  repeat_sequence: "এবার প্যাটার্নটি পুনরাবৃত্তি করুন।",
+  correct_feedback: "খুব সুন্দর!",
+  incorrect_feedback:
+    "কোনো ব্যাপার না। আসুন পরেরটি চেষ্টা করি।",
+  try_again: "আসুন আবার চেষ্টা করি।",
+  game_complete:
+    "আপনি খেলাটি সম্পূর্ণ করেছেন। দারুণ!",
+  question_of: "প্রশ্ন",
+  of: "এর মধ্যে",
+  score: "স্কোর",
+  accuracy: "সঠিকতা",
+  mistakes: "ভুল",
+  response_time: "প্রতিক্রিয়ার সময়",
+  play_again: "আবার খেলুন",
+  finish: "সমাপ্ত",
+  your_result: "আপনার ফলাফল",
+  need_family_first:
+    "এই খেলা শুরু করার আগে আপনার যত্নশীলকে পারিবারিক ছবি যুক্ত করতে হবে।",
+  need_family_more:
+    "এই খেলাটি শুরু করতে অনুগ্রহ করে কমপক্ষে আরও ১ জন পরিবারের সদস্য যুক্ত করুন।",
+  caregiver_preview: "যত্নশীল প্রিভিউ: খেলছেন",
+
+  watch: "দেখুন",
+  your_turn: "আপনার পালা",
+  level: "স্তর",
+  level_up: "স্তর পার হয়েছে! পরবর্তী স্তর আনলক হচ্ছে 🎉",
+  retry_prompt: "কোনো চিন্তা নেই। আসুন আরও একবার মনোযোগ দিয়ে দেখি।",
+  highest_level_reached: "সর্বোচ্চ স্তর অর্জিত",
+
+  // Caregiver
+  caregiver_dashboard: "যত্নশীল ড্যাশবোর্ড",
+  elderly_profile: "প্রোফাইল",
+  family_members: "পরিবারের সদস্যরা",
+  add_member: "পরিবারের সদস্য যুক্ত করুন",
+  edit: "সম্পাদনা",
+  delete: "মুছুন",
+  save: "সংরক্ষণ করুন",
+  cancel: "বাতিল",
+  name: "নাম",
+  relationship: "সম্পর্ক",
+  category: "বিভাগ",
+  photo: "ছবি",
+  game_performance: "খেলার পারফরম্যান্স",
+  games_completed: "খেলা",
+  average_score: "গড় স্কোর",
+  performance_trend: "খেলার পারফরম্যান্স ধারা",
+  trend_improving: "উন্নতি হচ্ছে",
+  trend_stable: "স্থিতিশীল",
+  trend_declining: "অবনতি",
+  trend_disclaimer:
+    "খেলার পারফরম্যান্সের ধারাগুলো তথ্যমূলক এবং চিকিৎসাজনিত রোগনির্ণয় নয়।",
+  games_disclaimer:
+    "এই ধারাটি স্মৃতি সাথীর খেলাগুলির পারফরম্যান্স প্রকাশ করে এবং কোনো ডাক্তারি নির্ণয় নয়।",
+  adaptive_difficulty: "অভিযোজিত স্তর",
+  alerts: "নোট",
+  no_alerts: "এই মুহূর্তে কোনো নোট নেই।",
+  reminders: "অনুস্মারক",
+  add_reminder: "অনুস্মারক যুক্ত করুন",
+  upcoming: "আসন্ন",
+  completed: "সম্পন্ন",
+  missed: "অনুপস্থিত",
+  link_elderly: "আপনি যাঁর যত্ন নেন তাঁকে যুক্ত করুন",
+  link_hint:
+    "তাঁদের প্রোফাইলে প্রদর্শিত ৬ অক্ষরের কেয়ার কোডটি লিখুন।",
+  link: "যুক্ত করুন",
+  linked_people: "যাঁদের যত্ন নিচ্ছেন",
+  no_linked:
+    "এখনো কাউকে যুক্ত করা হয়নি। শুরু করতে একটি কেয়ার কোড লিখুন।",
+  load_demo: "ডেমো পরিবার এবং ইতিহাস লোড করুন",
+  recent_sessions: "সাম্প্রতিক সেশন",
+  no_sessions: "এখনো কোনো খেলা খেলা হয়নি।",
+
+  // Offline / sync
+  online: "অনলাইন",
+  offline: "অফলাইন",
+  results_waiting: "ফলাফল সিঙ্ক হওয়ার অপেক্ষায় রয়েছে",
+  sync_now: "এখনই সিঙ্ক করুন",
+  sync_complete: "আপনার খেলার ফলাফল সিঙ্ক হয়েছে।",
+  sync_failed:
+    "এখন সিঙ্ক করা যায়নি। আপনার ফলাফল সংরক্ষিত আছে এবং পুনরায় চেষ্টা করা হবে।",
+  saved_offline:
+    "এই ডিভাইসে সংরক্ষিত হয়েছে। অনলাইন এলে সিঙ্ক হবে।",
+
+  // Levels
+  easy: "সহজ",
+  medium: "মাঝারি",
+  hard: "কঠিন",
+};
+
+const lus: Dict = {
+  ...en,
+
+  app_name: "Smriti Sathi",
+  tagline: "Hriatreuna enkawltu ṭhian",
+
+  // Landing Page
+  hero_title:
+    "Pitar leh putarte tana hriatreuna ṭhian muanawm — chhungte tana rilru hahdamna.",
+
+  hero_description:
+    "Smriti Sathi hian hriatreuna infiamna awlsam tak pahnih, nitin hriattirna leh mahni ṭawnga aw hmanga kaihhruaina a pe. Enkawltute chuan khawi hmun aṭang pawhin infiamna kalhmang an en thei.",
+
+  feature_memory:
+    "Chhungkaw thlalak ngei hmanga infiamna awlsam pahnih",
+
+  feature_voice:
+    "Mizo, English, Hindi leh ṭawng danga aw hmanga kaihhruaina",
+
+  feature_offline:
+    "Internet awm loh pawhin a khelh theih a, hnuaiah a in-sync leh ang",
+
+  feature_caregiver:
+    "Enkawltuten infiamna dinhmun chauh an hmu ang — damdawi thutlukna a ni lo",
+
+  medical_disclaimer:
+    "Smriti Sathi hian natna a zawngchhuak lo. Infiamna dinhmun hi hriatzauna atan chauh a ni a, damdawi lam thutlukna a ni lo.",
+
+  // Auth
+  sign_in: "Lut rawh",
+  sign_in_patient: "Damlo / Pitar-Putar Luhna",
+  sign_in_caregiver: "Enkawltu Luhna",
+  sign_up: "Account siam rawh",
+  sign_up_patient: "Damlo / Pitar-Putar inziah luhna",
+  sign_up_caregiver: "Enkawltu inziah luhna",
+  sign_out: "Chhuak rawh",
+  email: "Email",
+  password: "Password",
+  full_name: "Hming pum",
+  age: "Kum",
+  i_am: "Ka nihna",
+  role_elderly: "Infiamna hmangtu (Damlo / Pitar-Putar)",
+  role_caregiver: "Chhungkhat emaw enkawltu",
+  login_as_patient: "Pitar-Putar / Damlo Luhna",
+  login_as_caregiver: "Enkawltu Luhna",
+  patient_desc:
+    "Hriatreuna infiamna khel la, nitin hriattirna enin aw ṭanpuina ngaithla rawh",
+  caregiver_desc:
+    "Infiamna dinhmun vil la, chhungkaw thlalak dah lutin nitin hriattirna enkawl rawh",
+  patient_signup: "Damlo anga inziah luhna",
+  caregiver_signup: "Enkawltu anga inziah luhna",
+  continue_google: "Google hmangin chhunzawm rawh",
+  have_account: "Account i nei tawh em? Lut rawh",
+  need_account: "A thar i ni em? Account siam rawh",
+  check_email:
+    "I account nemngheh nan i email enfiah la, chumi hnuah lut rawh.",
+
+  // Home
+  welcome: "Chibai. Vawiinah enge i tih duh le?",
+  home_prompt: "Vawiinah enge i tih duh le?",
+  greeting: "Chibai",
+  start_a_game: "Infiamna ṭan rawh",
+  family_game: "Chhungkaw Hriatreuna Infiamna",
+  family_game_desc:
+    "Thlalak en la, hming dik thlang rawh.",
+  sequence_game: "Indawt Hriatreuna",
+  sequence_game_desc:
+    "Entirna en la, a dawt zelin zawm rawh.",
+  start_game: "Khel ṭan rawh",
+  todays_reminders: "Vawiin hriattirnate",
+  no_reminders: "Vawiin atan hriattirna a awm lo.",
+  mark_done: "Zo ta",
+  reminder_done: "Zo ta",
+  reminder_due: "A hun a thleng ta:",
+  voice_assistant: "Aw hmanga ṭanpuitu",
+  voice_hint: "I tih theih hriat nan hmet rawh",
+  voice_unavailable:
+    "He khawlah hian aw a awm thei lo. Hriattirna hi screen-ah a lang.",
+  profile: "Profile",
+  language: "Ṭawng",
+  caregiver: "Enkawltu",
+  care_code: "Care code",
+  care_code_hint:
+    "I enkawltu hnenah he code hi pe la, i hmasawnna an lo thlir thei ang.",
+  not_linked: "Zawm a la ni lo",
+  back_home: "In lamah kir leh rawh",
+  suggested_level: "Rawtna level",
+
+  // Games
+  game_instruction: "Thlalak hi uluk takin en rawh.",
+  sequence_instruction: "A indawt dan hi hre reng rawh.",
+  memory_preview: "Uluk takin en rawh.",
+  question_prompt: "Tunge he mi hi?",
+  choose_name: "A hnuai ami hming dik hi hmet rawh",
+  repeat_sequence: "Tunah a dawt danin zawm ve rawh le.",
+  correct_feedback: "A va ṭha em!",
+  incorrect_feedback:
+    "A pawi lo ve. A dawt leh ami kan tum dawn nia.",
+  try_again: "Tum nawn leh ang hmiang.",
+  game_complete:
+    "Infiamna i zo ta. I ti ṭha hle mai.",
+  question_of: "Zawhna",
+  of: "/",
+  score: "Point",
+  accuracy: "Dik zat",
+  mistakes: "Tihsual",
+  response_time: "Chhan hun chhung",
+  play_again: "Khel nawn leh rawh",
+  finish: "Zo ta",
+  your_result: "I result",
+  need_family_first:
+    "He infiamna ṭan hmain i enkawltuin chhungkaw thlalak a dah luh a ngai.",
+  need_family_more:
+    "He infiamna ṭan nan khawngaihin chhungkaw mi pakhat tal belh leh rawh.",
+  caregiver_preview: "Enkawltu Preview: Khelhsak mek",
+
+  watch: "En rawh",
+  your_turn: "I hun a thleng ta",
+  level: "Level",
+  level_up: "Level i zo ta! A dawt chhawng a inhawng e 🎉",
+  retry_prompt: "A pawi lo ve. Vawikhat uluk takin i en nawn leh ang hmiang.",
+  highest_level_reached: "Level sang ber thlen chin",
+
+  // Caregiver
+  caregiver_dashboard: "Enkawltu Dashboard",
+  elderly_profile: "Profile",
+  family_members: "Chhungkaw mite",
+  add_member: "Chhungkaw mi belh rawh",
+  edit: "Siamṭha rawh",
+  delete: "Paihsak rawh",
+  save: "Vawng ṭha rawh",
+  cancel: "Ṭhulh rawh",
+  name: "Hming",
+  relationship: "Inlaichinna",
+  category: "Pawl",
+  photo: "Thlalak",
+  game_performance: "Khelh dan dinhmun",
+  games_completed: "Khelh zat",
+  average_score: "Average score",
+  performance_trend: "Hmasawnna kalhmang",
+  trend_improving: "A ṭha chho zel",
+  trend_stable: "A ngai reng",
+  trend_declining: "A tla hniam",
+  trend_disclaimer:
+    "Infiamna dinhmun hi hriatzauna chauh a ni a, damdawi lam thutlukna a ni lo.",
+  games_disclaimer:
+    "He kalhmang hian Smriti Sathi infiamna khelh dan chauh a entir a, damdawi thutlukna a ni lo.",
+  adaptive_difficulty: "Harsat zawng insiamrem",
+  alerts: "Hriattirnate",
+  no_alerts: "Tunah hriattirna thar a awm lo.",
+  reminders: "Hriattirnate",
+  add_reminder: "Hriattirna belh rawh",
+  upcoming: "Lo thleng tur",
+  completed: "Tih zawh tawh",
+  missed: "Tih hmaih",
+  link_elderly: "I enkawl lai zawm rawh",
+  link_hint:
+    "An profile-a 6-character care code lang kha chhu lut rawh.",
+  link: "Zawm rawh",
+  linked_people: "I enkawl laite",
+  no_linked:
+    "Zawm a la awm lo. Ṭan nan care code chhu lut rawh.",
+  load_demo: "Demo chhungkua leh chanchin dah lut rawh",
+  recent_sessions: "Khelh hnuhnungte",
+  no_sessions: "Infiamna khelh a la awm lo.",
+
+  // Offline / sync
+  online: "Online",
+  offline: "Offline",
+  results_waiting: "results sync nghak mek",
+  sync_now: "Sync nghal rawh",
+  sync_complete: "I infiamna result chu sync fel a ni ta.",
+  sync_failed:
+    "Sync theih rih a ni lo. I result a him a, a tum nawn leh ang.",
+  saved_offline:
+    "He khawlah hian dah ṭhat a ni. Online leh hunah a in-sync ang.",
+
+  // Levels
+  easy: "Awlsam",
+  medium: "Laihawi",
+  hard: "Harsa",
+};
+
 const DICTS: Record<LanguageCode, Dict> = {
   en,
   hi,
   mr,
   as,
+  bn,
+  lus,
 };
 
 export type TranslationKey = keyof typeof en;

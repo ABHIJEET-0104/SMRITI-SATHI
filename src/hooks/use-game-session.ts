@@ -12,7 +12,7 @@ export interface GameOutcome {
   correctAnswers: number;
   mistakes: number;
   responseTimes: number[];
-  userId?: string;
+  userId?: string | undefined;
 }
 
 export interface GameResult extends PendingSession {}

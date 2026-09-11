@@ -76,9 +76,13 @@ export const VoiceService = {
       if (options?.interrupt !== false) s.cancel();
       const locale = localeFor(options?.lang ?? currentLang);
       const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = locale;
       const voice = pickVoice(locale);
-      if (voice) utter.voice = voice;
+      if (voice) {
+        utter.voice = voice;
+        utter.lang = voice.lang || locale;
+      } else {
+        utter.lang = locale;
+      }
       utter.rate = 0.85;
       utter.pitch = 1;
       utter.onerror = () => {

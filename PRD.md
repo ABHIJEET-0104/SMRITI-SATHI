@@ -14,7 +14,7 @@ Unlike clinical diagnostic tools, Smriti Sathi is framed around **dignity, emoti
 
 ### Core Value Propositions
 1. **Calm, Senior-Friendly Experience**: High-contrast typography, large touch targets, minimal visual clutter, soft acoustic cues, and zero clinical anxiety.
-2. **Multilingual Inclusivity (Indic First)**: Complete UI and spoken voice guidance in English, Hindi (हिन्दी), Marathi (मराठी), and Assamese (অসমীয়া).
+2. **Multilingual Inclusivity (Indic First)**: Complete UI and spoken voice guidance in English, Hindi (हिन्दी), Marathi (मराठी), Assamese (অসমীয়া), Bengali (বাংলা), and Mizo (Mizo ṭawng).
 3. **Personalized Cognitive Engagement**: Memory exercises built from the elder's actual family circle and personal history rather than abstract puzzles.
 4. **Offline-First Resilience**: Games continue running without interruption when connectivity drops, using client-generated idempotent UUIDs that sync seamlessly upon reconnection.
 5. **Caregiver Empowerment without Surveillance Overreach**: Caregivers track objective game performance (accuracy, response times, adherence trends) with deterministic rule-based insights, maintaining ethical boundaries by avoiding unauthorized medical claims.
@@ -52,7 +52,7 @@ Unlike clinical diagnostic tools, Smriti Sathi is framed around **dignity, emoti
 | :--- | :--- | :--- |
 | **Cognitive Engagement** | Weekly Active Sessions | $\ge 4$ sessions per active elder / week |
 | **Accessibility & Usability** | Task Completion Rate | $> 90\%$ completion of game rounds without caregiver intervention |
-| **Language Inclusivity** | Non-English Usage | $> 60\%$ sessions played in Hindi, Marathi, or Assamese |
+| **Language Inclusivity** | Non-English Usage | $> 60\%$ sessions played in non-English native languages |
 | **Offline Reliability** | Sync Success Rate | $100\%$ idempotent sync of cached offline sessions |
 | **Caregiver Satisfaction** | Caregiver Onboarding | $< 2$ minutes to link elder via 6-character Care Code |
 
@@ -63,7 +63,7 @@ Unlike clinical diagnostic tools, Smriti Sathi is framed around **dignity, emoti
 ### 4.1 Dual-Role Authentication & Profile Management
 - **FR-AUTH-1**: Dedicated entry paths on landing screen: **Patient/Elder Login** vs. **Caregiver Login**.
 - **FR-AUTH-2**: Support for Email/Password and OAuth (Google / Cloud Auth) via Supabase Auth.
-- **FR-AUTH-3**: Automatic profile provisioning on sign-up with default language selection (`en`, `hi`, `mr`, `as`) and role attribution.
+- **FR-AUTH-3**: Automatic profile provisioning on sign-up with default language selection (`en`, `hi`, `mr`, `as`, `bn`, `lus`) and role attribution.
 - **FR-AUTH-4**: **Care Code Pairing System**: Every elderly profile generates a unique, uppercase 6-character alphanumeric Care Code. Caregivers enter this code to securely bind their account to the elder.
 
 ### 4.2 Cognitive Stimulation Games
@@ -94,7 +94,7 @@ Unlike clinical diagnostic tools, Smriti Sathi is framed around **dignity, emoti
 - **FR-PERF-3**: **Medical Disclaimers**: The system strictly displays a prominent disclaimer: *"Game metrics represent task performance and engagement trends only. They do not constitute a clinical or medical diagnosis."*
 
 ### 4.4 Multilingual Voice Guidance (Web Speech API)
-- **FR-VOICE-1**: Centralized dictionary in `src/lib/i18n.ts` supporting English (`en-IN`), Hindi (`hi-IN`), Marathi (`mr-IN`), and Assamese (`as-IN`).
+- **FR-VOICE-1**: Centralized dictionary in `src/lib/i18n.ts` supporting English (`en-IN`), Hindi (`hi-IN`), Marathi (`mr-IN`), Assamese (`as-IN`), Bengali (`bn-IN`), and Mizo (`lus-IN`).
 - **FR-VOICE-2**: Automatic fallback voice selection if target regional voice is missing from client OS/browser.
 - **FR-VOICE-3**: Clean speech queue management (`speechSynthesis.cancel()`) to prevent audio overlap.
 

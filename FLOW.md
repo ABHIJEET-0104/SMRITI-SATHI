@@ -70,7 +70,7 @@ AppProvider Mount
   ├── 1. Get initial session: supabase.auth.getSession()
   ├── 2. Fetch User Profile: getMe() server function (or cache)
   ├── 3. Restore persisted preferences from localStorage:
-  │      ├── smriti_lang (Default: "en", options: "hi", "mr", "as")
+  │      ├── smriti_lang (Default: "en", options: "hi", "mr", "as", "bn", "lus")
   │      └── smriti_sound_enabled (Default: true)
   ├── 4. Configure VoiceService:
   │      ├── VoiceService.setLanguage(lang)
@@ -83,10 +83,13 @@ AppProvider Mount
 ## 4. Routing & Role Dispatching
 
 - **Landing Page ([`src/routes/index.tsx`](file:///i:/Projects/Smrithi-sathi/src/routes/index.tsx))**:
-  - Unauthenticated users view the landing hero, feature overview, and call-to-action buttons.
+  - Unauthenticated users view the landing hero, feature overview, and call-to-action buttons, framed against the warm scenic background (`public/images/auth-bg.png`) with an atmospheric overlay and frosted glass panels (`backdrop-blur-xl bg-card/95`).
   - If a user is already signed in with an active profile, an effect redirects immediately:
     - If `profile.role === "caregiver"` $\rightarrow$ Navigates to `/caregiver`.
     - If `profile.role === "elder"` $\rightarrow$ Navigates to `/home`.
+- **Authentication Screen ([`src/routes/auth.tsx`](file:///i:/Projects/Smrithi-sathi/src/routes/auth.tsx))**:
+  - Renders the sign-in / sign-up card with role selector and multilingual picker.
+  - Features the warm family living room background (`public/images/auth-bg.png`) with an atmospheric overlay and frosted glass card (`backdrop-blur-xl bg-card/95`), resolving desktop empty space while maintaining pristine contrast.
 - **Authentication Guard ([`src/routes/_authenticated/route.tsx`](file:///i:/Projects/Smrithi-sathi/src/routes/_authenticated/route.tsx))**:
   - `beforeLoad` executes `supabase.auth.getUser()`.
   - If no session or an error occurs, it throws a redirect to `/auth`.
@@ -207,5 +210,12 @@ Whenever files are modified or introduced during coding sessions, log them in th
 | 2026-09-11 | `src/routes/_authenticated/play.family.tsx` | Implemented preview face/name intro + persistent photo anchor in question and feedback |
 | 2026-09-11 | `src/lib/i18n.ts` | Added `choose_name` key across EN, HI, MR, AS |
 | 2026-09-11 | `DECISIONS.md` | Added ADR-011 for Spaced Retrieval Family Memory Match (Cueing & Persistent Visual Anchor) |
+| 2026-09-11 | `src/lib/i18n.ts` | Added Bengali (`bn`) and Mizo (`lus`) to `LANGUAGES`, complete dictionaries, and registered in `DICTS` |
+| 2026-09-11 | `src/lib/voice.ts` | Updated TTS utterance language synchronization with picked fallback voice |
+| 2026-09-11 | `src/lib/api.functions.ts` | Added `'bn'` and `'lus'` to `updateMyProfile` language whitelist |
+| 2026-09-11 | `supabase/migrations/20260911221500_add_bengali_mizo_languages.sql` | Created migration for `profiles_language_check` constraint |
+| 2026-09-11 | `PRD.md` | Updated core value propositions and requirements to reflect 6 supported languages |
+| 2026-09-11 | `DECISIONS.md` | Added ADR-012 for Indic Localization Expansion to Bengali & Mizo |
+| 2026-09-11 | `FLOW.md` | Updated execution flow and tracking log for 6-language localization pipeline |
 
 

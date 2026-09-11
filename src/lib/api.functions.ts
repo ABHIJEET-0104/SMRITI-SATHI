@@ -58,7 +58,7 @@ export const updateMyProfile = createServerFn({ method: "POST" })
     const patch: Record<string, unknown> = {};
     if (typeof data.full_name === "string") patch["full_name"] = data.full_name.trim();
     if (data.age === null || typeof data.age === "number") patch["age"] = data.age;
-    if (data.language && ["en", "hi", "mr", "as"].includes(data.language))
+    if (data.language && ["en", "hi", "mr", "as", "bn", "lus"].includes(data.language))
       patch["language"] = data.language;
     const { data: profile, error } = await supabase
       .from("profiles")

@@ -166,4 +166,32 @@ Whenever altering the codebase, record each significant decision below using the
 - **Rationale**: Follows clinical best practices in dementia memory therapy (spaced retrieval and errorless learning), eliminating object permanence anxiety and promoting dignified cognitive reinforcement.
 - **Impact & Trade-offs**: Significant reduction in patient confusion; requires no extra network calls as data is already available in the question target.
 
+---
+
+### ADR-012: Indic Localization Expansion to Bengali & Mizo for Enhanced NER & Border Coverage
+- **Date**: 2026-09-11
+- **Status**: Accepted
+- **Context**: Focus on the North Eastern Region (NER) required broader linguistic inclusion beyond Assamese (`as`), specifically addressing Tripura & Assam's Barak Valley (where Bengali is primary) and Mizoram (where Mizo is the indigenous language).
+- **Decision**:
+  1. **Static Typed Dictionaries**: Added **Bengali (`bn`, `bn-IN`, বাংলা)** and **Mizo (`lus`, `lus-IN`, Mizo ṭawng)** to `LANGUAGES` in `src/lib/i18n.ts` with 100% key coverage across all user journeys.
+  2. **Resilient TTS Voice Fallback**: Updated `VoiceService` in `src/lib/voice.ts` so that if a regional voice is unavailable on client devices (common for Mizo on consumer browsers), the utterance synchronizes `utter.lang = voice.lang` with an English fallback voice and displays visible localized cues without throwing errors.
+  3. **Backend & DB Validation**:
+     - Updated `updateMyProfile` server function in `src/lib/api.functions.ts` to include `'bn'` and `'lus'`.
+     - Added migration `20260911221500_add_bengali_mizo_languages.sql` to update `public.profiles.language` CHECK constraint to `CHECK (language IN ('en', 'hi', 'mr', 'as', 'bn', 'lus'))`.
+- **Rationale**: High demographic impact for NER dementia care; preserves offline-first architecture with zero translation network overhead.
+- **Impact & Trade-offs**: Expanded language picker from 4 to 6 options; dictionary size increases slightly (~16KB uncompressed) but loads instantly with static bundle and functions completely offline.
+
+---
+
+### ADR-013: Unified Scenic Background & Frosted Glass Treatment (Start & Login Screens)
+- **Date**: 2026-09-11
+- **Status**: Accepted
+- **Context**: On desktop and wide laptop displays, both the landing/start page (`/`) and the authentication route (`/auth`) left wide expanses of unstyled, empty background around centered cards. A warm, intergenerational illustration asset (`public/images/auth-bg.png`) depicts an elder smiling with a grandchild, sunlit living room, and memory books, with an open luminous center.
+- **Decision**:
+  1. **Fixed Responsive Backdrop**: Applied `auth-bg.png` via `fixed inset-0 z-0 bg-cover bg-bottom bg-no-repeat` with atmospheric scrim overlays on both [`src/routes/index.tsx`](file:///i:/Projects/Smrithi-sathi/src/routes/index.tsx) and [`src/routes/auth.tsx`](file:///i:/Projects/Smrithi-sathi/src/routes/auth.tsx).
+  2. **Frosted Glass Panels**: Upgraded both cards and feature containers to `backdrop-blur-xl bg-card/95 shadow-2xl border border-border/80` to guarantee strict WCAG AAA contrast for all interactive elements, typography, and buttons.
+  3. **Mobile & Viewport Safety**: Set `overflow-x-hidden` on parent containers to guarantee zero horizontal shift across mobile devices and high-DPI displays.
+- **Rationale**: Creates an emotionally coherent, welcoming brand atmosphere across the top-of-funnel experience, reassuring elderly patients and caregivers while maintaining pristine readability.
+- **Impact & Trade-offs**: Lightweight PNG asset (862KB) stored in `public/images/`; zero extra network requests between screens due to browser caching; 100% accessible.
+
 

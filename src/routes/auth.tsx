@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/auth")({
   validateSearch: (
     search: Record<string, unknown>,
-  ): { mode?: "signin" | "signup"; role?: "elderly" | "caregiver" } => ({
+  ): { mode?: "signin" | "signup" | undefined; role?: "elderly" | "caregiver" | undefined } => ({
     mode: search["mode"] === "signup" ? "signup" : undefined,
     role:
       search["role"] === "caregiver" || search["role"] === "elderly"
@@ -119,10 +119,7 @@ function AuthPage() {
             access_type: "offline",
             prompt: "consent",
           },
-          data: {
-            role,
-            language,
-          },
+          ...({ data: { role, language } } as Record<string, unknown>),
         },
       });
 
@@ -151,9 +148,23 @@ function AuthPage() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden px-4 py-10 sm:px-8">
+    <div className="relative min-h-screen overflow-x-hidden px-4 py-10 sm:px-8">
+      {/* Scenic warm background scene */}
       <div
-        className="orb -left-24 -top-32 size-[420px]"
+        className="pointer-events-none fixed inset-0 z-0 bg-cover bg-bottom bg-no-repeat opacity-85 transition-opacity duration-300 dark:opacity-35"
+        style={{
+          backgroundImage: "url('/images/auth-bg.png')",
+        }}
+        aria-hidden="true"
+      />
+      {/* Soft atmospheric overlay to ensure pristine contrast and focus */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-background/40 via-background/25 to-background/50 backdrop-blur-[1px]"
+        aria-hidden="true"
+      />
+
+      <div
+        className="orb -left-24 -top-32 size-[420px] pointer-events-none"
         style={{
           background:
             "radial-gradient(circle, color-mix(in oklab, var(--primary) 35%, transparent), transparent 70%)",
@@ -162,16 +173,16 @@ function AuthPage() {
 
       <div className="relative z-10 mx-auto max-w-lg">
         <Link to="/" className="flex items-center gap-3">
-          <span className="gradient-primary grid size-11 place-items-center rounded-2xl font-display font-bold text-primary-foreground">
+          <span className="gradient-primary grid size-11 place-items-center rounded-2xl font-display font-bold text-primary-foreground shadow-md">
             SS
           </span>
 
-          <span className="font-display text-xl font-bold">
+          <span className="font-display text-xl font-bold drop-shadow-sm">
             {t("app_name")}
           </span>
         </Link>
 
-        <div className="panel mt-6 rounded-3xl p-6 sm:p-8">
+        <div className="panel mt-6 rounded-3xl p-6 sm:p-8 backdrop-blur-xl bg-card/95 shadow-2xl border border-border/80">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider">
             {role === "elderly" ? (
               <span className="rounded-full bg-primary/15 px-3 py-1 text-primary">

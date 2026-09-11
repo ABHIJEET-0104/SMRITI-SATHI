@@ -69,23 +69,36 @@ function Landing() {
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden px-4 py-10 sm:px-8">
+    <div className="relative min-h-screen overflow-x-hidden px-4 py-10 sm:px-8">
+      {/* Scenic warm background scene */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0 bg-cover bg-bottom bg-no-repeat opacity-80 transition-opacity duration-300 dark:opacity-30"
+        style={{
+          backgroundImage: "url('/images/auth-bg.png')",
+        }}
+        aria-hidden="true"
+      />
+      {/* Soft atmospheric overlay ensuring pristine readability */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-background/50 via-background/35 to-background/60 backdrop-blur-[1px]"
+        aria-hidden="true"
+      />
 
       {/* Background Orb - Left */}
       <div
-        className="orb -left-24 -top-32 size-[480px]"
+        className="orb -left-24 -top-32 size-[480px] pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, color-mix(in oklab, var(--primary) 35%, transparent), transparent 70%)",
+            "radial-gradient(circle, color-mix(in oklab, var(--primary) 30%, transparent), transparent 70%)",
         }}
       />
 
       {/* Background Orb - Right */}
       <div
-        className="orb -bottom-24 -right-24 size-[420px]"
+        className="orb -bottom-24 -right-24 size-[420px] pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, color-mix(in oklab, var(--accent) 40%, transparent), transparent 70%)",
+            "radial-gradient(circle, color-mix(in oklab, var(--accent) 35%, transparent), transparent 70%)",
         }}
       />
 
@@ -101,7 +114,7 @@ function Landing() {
             </span>
 
             <span className="leading-tight">
-              <span className="block font-display text-xl font-bold">
+              <span className="block font-display text-xl font-bold drop-shadow-sm">
                 {t("app_name")}
               </span>
 
@@ -116,7 +129,7 @@ function Landing() {
         </div>
 
         {/* Main Card */}
-        <section className="panel mt-8 rounded-3xl p-7 sm:p-10">
+        <section className="panel mt-8 rounded-3xl p-7 sm:p-10 backdrop-blur-xl bg-card/95 shadow-2xl border border-border/80">
 
           {/* Main Heading */}
           <h1 className="font-display text-4xl font-bold tracking-tight sm:text-5xl">
@@ -218,7 +231,7 @@ function Landing() {
           {features.map((feature) => (
             <li
               key={feature.text}
-              className="panel flex items-start gap-3 rounded-2xl p-5"
+              className="panel flex items-start gap-3 rounded-2xl p-5 backdrop-blur-md bg-card/90 shadow-md border border-border/60"
             >
               <feature.icon
                 className="mt-0.5 size-6 shrink-0 text-primary"
